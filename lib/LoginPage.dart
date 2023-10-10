@@ -23,7 +23,13 @@ class _LoginState extends State<Login>{
               color: Colors.white,
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                CircleAvatar(
+                  radius: hi*0.07,
+                  backgroundColor: Colors.grey,
+                  child: Icon(Icons.person,size: hi*0.09,color: Colors.white,),
+                ),
               ],
             ),
           ),
