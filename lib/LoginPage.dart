@@ -28,7 +28,10 @@ class _LoginState extends State<Login>{
                 CircleAvatar(
                   radius: hi*0.07,
                   backgroundColor: Colors.grey,
-                  child: Icon(Icons.person,size: hi*0.09,color: Colors.white,),
+                  child: Icon(
+                      Icons.person,size: hi*0.09,
+                      color: Color.fromARGB(255, 0, 63, 254)
+                  ),
                 ),
                 Text('E mail'),
               ],
