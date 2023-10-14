@@ -100,21 +100,39 @@ class _LoginState extends State<Login>{
                   }, child: Text("Sign Up",style: TextStyle(color: Color.fromARGB(255,0, 63, 254)),))   */
 
                   Divider(
-                    color: Colors.black,
+                    color: Colors.black45,
                     thickness: 2,
                     indent: wi*0.1,
                     endIndent: wi*0.1,
                   ),
                   SizedBox(height: hi*0.05,),
-                  ElevatedButton(onPressed: (){
-                    if(_formkey.currentState!.validate())
-                    {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-                    }
-                  },
-                      child: Text("Login with Google",style: TextStyle(color: Colors.white, fontSize: 20),)
+                  Container(
+                    height: hi*0.05,
+                    width: wi*0.6,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 0, 63, 254)
+                      ),
+                      borderRadius: BorderRadius.circular(100.0),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Icon(Icons.account_box_outlined,color: Colors.red,),
+                        Center(
+                          child: Text(
+                            'COTINUE WITH GOOGLE',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 0, 63, 254),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-
 
                 ],
               ),
