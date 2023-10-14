@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "479804544083",
+    "project_id": "learnx-76d4b",
+    "storage_bucket": "learnx-76d4b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479804544083:android:328a205ffd537a879e62a6",
+        "android_client_info": {
+          "package_name": "com.app.learnx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4RDLHRIPaGDTar7gTGskH4_B4Qj_CY70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479804544083:android:20274418fb6025bf9e62a6",
+        "android_client_info": {
+          "package_name": "com.example.first"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4RDLHRIPaGDTar7gTGskH4_B4Qj_CY70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
