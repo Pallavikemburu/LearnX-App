@@ -1,15 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-import 'HomePage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'LoginPage.dart';
+import 'SignupPage.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget{
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return const MaterialApp(
-      home: Login(),
+      home: MyHome(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -28,7 +27,8 @@ class MyHome extends StatefulWidget{
   State<MyHome> createState() => _MyHomeState();
 }
 class _MyHomeState extends State<MyHome>{
-  bool userIsLoggedIn = true;
+  bool userIsLoggedIn = false;
+  Color mainbg = const Color.fromARGB(255, 0, 63, 254);
   @override
   Widget build(BuildContext context){
     double wi = MediaQuery.of(context).size.width;
@@ -74,20 +74,56 @@ class _MyHomeState extends State<MyHome>{
               )
           ),
           SizedBox(height: hi*0.05,),
-          ElevatedButton(
-            onPressed: (){
-              if (userIsLoggedIn){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
-              }
-              else{
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
-              }
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
             },
-            style: const ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Colors.green),
+            child: Container(
+              width: wi*0.8,
+              height: hi*0.05,
+              decoration: BoxDecoration(
+                color: mainbg,
+                borderRadius: BorderRadius.circular(hi*0.025),
+              ),
+              child: Center(
+                child: Text(
+                  'LOGIN',
+                  style: GoogleFonts.aBeeZee(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.white,
+                    )
+                  ),
+                ),
+              ),
             ),
-            child: const Text('Next'),
           ),
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const Signup()));
+            },
+            child: Container(
+              width: wi*0.8,
+              height: hi*0.05,
+              decoration: BoxDecoration(
+                color: mainbg,
+                borderRadius: BorderRadius.circular(hi*0.025),
+              ),
+              child: Center(
+                child: Text(
+                  'SIGNUP',
+                  style: GoogleFonts.aBeeZee(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white,
+                      )
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       )
     );

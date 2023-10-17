@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learnx/HomePage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget{
   const Login({super.key});
@@ -7,13 +8,63 @@ class Login extends StatefulWidget{
   State<Login> createState() => _LoginState();
 }
 class _LoginState extends State<Login>{
-  @override
   final email=TextEditingController();
   final password=TextEditingController();
   final _formkey=GlobalKey<FormState>();
   bool password_visibilty=true;
   IconData passicon=Icons.remove_red_eye_rounded;
+  bool isRegistering = false;
+  bool check = false;
 
+  Future<void> registerUser() async {
+    if (_formkey.currentState!.validate()) {
+      setState(() {
+        isRegistering = true;
+      });
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+          email: email.text,
+          password: password.text,
+        );
+        String message = userCredential.toString();
+        setState(() {});
+        check = true;
+        showCustomSnackBar(context, 'Registration successful', Colors.green);
+      } catch (e) {
+        showCustomSnackBar(context, 'Registration error: $e', Colors.purple);
+      } finally {
+        setState(() {
+          isRegistering = false;
+        });
+      }
+    } else {
+      setState(() {
+        check=false;
+      });
+      showCustomSnackBar(context, 'Please fill in correct information', Colors.red);
+    }
+  }
+
+  void showCustomSnackBar(BuildContext context, String string, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: color,
+        content: Container(
+          child: Text(
+            string,
+            style: TextStyle(
+              color: color == Colors.red ? Colors.black : Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context){
     double wi = MediaQuery.of(context).size.width;
     double hi = MediaQuery.of(context).size.height;
@@ -44,7 +95,7 @@ class _LoginState extends State<Login>{
               key: _formkey,
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   Padding(
@@ -53,7 +104,7 @@ class _LoginState extends State<Login>{
                       keyboardType: TextInputType.emailAddress,
                       controller: email,
                       validator:(val)=> val!.isEmpty ? "Please Enter Email" : null,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Email ID",
                         prefixIcon: Icon(Icons.mail),
                         //helperText: "Email",
@@ -74,8 +125,11 @@ class _LoginState extends State<Login>{
                         prefixIcon: IconButton(onPressed: (){
                           setState(() {
                             password_visibilty=!password_visibilty;
-                            if(passicon==Icons.remove_red_eye_rounded) passicon=Icons.visibility_off;
-                            else  passicon=Icons.remove_red_eye_rounded;
+                            if(passicon==Icons.remove_red_eye_rounded) {
+                              passicon=Icons.visibility_off;
+                            } else {
+                              passicon=Icons.remove_red_eye_rounded;
+                            }
                           });
                         },icon: Icon(passicon),),
                         //helperText: "password",
@@ -92,7 +146,7 @@ class _LoginState extends State<Login>{
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
                     }
                   },
-                      child: Text("Login",style: TextStyle(color: Colors.white, fontSize: 20),)
+                      child: const Text("Login",style: TextStyle(color: Colors.white, fontSize: 20),)
                   ),
                   SizedBox(height: hi*0.025,),
                 /*  TextButton(onPressed: (){
@@ -111,12 +165,12 @@ class _LoginState extends State<Login>{
                     width: wi*0.6,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Color.fromARGB(255, 0, 63, 254)
+                        color: const Color.fromARGB(255, 0, 63, 254)
                       ),
                       borderRadius: BorderRadius.circular(100.0),
                       color: Colors.white,
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Icon(Icons.account_box_outlined,color: Colors.red,),
