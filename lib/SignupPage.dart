@@ -22,7 +22,9 @@ class _SignupState extends State<Signup>{
       ).then((val){
         showCustomSnackBar('Registration successful', Colors.green);
         Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
-      });
+      }).onError((error, stackTrace){
+          showCustomSnackBar('Registration error: $error', Colors.purple);
+        });
     }
     catch (e) {
       showCustomSnackBar('Registration error: $e', Colors.purple);

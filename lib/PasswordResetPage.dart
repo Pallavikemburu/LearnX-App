@@ -1,34 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:learnx/HomePage.dart';
-import 'package:learnx/PasswordResetPage.dart';
+import 'package:learnx/LoginPage.dart';
 
-class Login extends StatefulWidget{
-  const Login({super.key});
+class PasswordReset extends StatefulWidget{
+  const PasswordReset({super.key});
   @override
-  State<Login> createState() => _LoginState();
+  State<PasswordReset> createState() => _PasswordResetState();
 }
-class _LoginState extends State<Login>{
+class _PasswordResetState extends State<PasswordReset>{
   final _email=TextEditingController();
-  final _password=TextEditingController();
   final _formkey=GlobalKey<FormState>();
 
-  Future<void> registerUser() async {
+  Future<void> resetPassword() async {
     final FirebaseAuth user = await FirebaseAuth.instance;
     try {
-      user.signInWithEmailAndPassword(
+      user.sendPasswordResetEmail(
         email: _email.text,
-        password: _password.text,
       ).then((val){
-        showCustomSnackBar('Registration successful', Colors.green);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+        showCustomSnackBar('Check your email!', Colors.green);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
       }).onError((error, stackTrace){
-        showCustomSnackBar('Registration error: $error', Colors.purple);
+        showCustomSnackBar('try again!', Colors.purple);
       });
     }
     catch (e) {
-      showCustomSnackBar('Registration error: $e', Colors.purple);
+      showCustomSnackBar('Email not sent, try again!', Colors.purple);
     }
   }
 
@@ -78,26 +75,13 @@ class _LoginState extends State<Login>{
                     ),
                     validator: (val)=>val!.isEmpty?"Enter Valid Email":null,
                   ),
-                  TextFormField(
-                    controller: _password,
-                    decoration: InputDecoration(
-                      icon: Icon(CupertinoIcons.padlock_solid),
-                    ),
-                    validator: (val)=>val!.isEmpty?"Enter Valid Password":null,
-                  ),
-                  ElevatedButton(
-                      onPressed: (){
-                        Navigator.push(context,MaterialPageRoute(builder: (context)=>PasswordReset()));
-                      },
-                      child: Text("forgot password ?")
-                  ),
                   ElevatedButton(
                       onPressed: (){
                         if (_formkey.currentState!.validate()){
-                          registerUser();
+                          resetPassword();
                         }
                       },
-                      child: Text("Login")
+                      child: Text("Reset Password"),
                   )
                 ],
               ),
