@@ -90,7 +90,7 @@ class _SignupState extends State<Signup>{
                         registerUser();
                       }
                     },
-                    child: Text("SignUp")
+                    child: Text("Sign Up")
                   )
                 ],
               ),
