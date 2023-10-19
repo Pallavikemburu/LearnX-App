@@ -11,6 +11,7 @@ class PasswordReset extends StatefulWidget{
 class _PasswordResetState extends State<PasswordReset>{
   final _email=TextEditingController();
   final _formkey=GlobalKey<FormState>();
+  final _focusNode = FocusNode();
 
   Future<void> resetPassword() async {
     final FirebaseAuth user = await FirebaseAuth.instance;
@@ -54,40 +55,50 @@ class _PasswordResetState extends State<PasswordReset>{
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 230, 230, 230),
       body: Center(
-        child: Card(
-          elevation: 15,
-          shadowColor: Colors.grey,
-          child: Container(
-            width: wi*0.85,
-            height: hi*0.8,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
             child: Form(
               key: _formkey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  
+                  Text("Please enter your Registered mail"),
+
+
                   TextFormField(
                     controller: _email,
-                    decoration: InputDecoration(
-                      icon: Icon(CupertinoIcons.mail_solid),
+                    focusNode: _focusNode,
+                    textInputAction: TextInputAction.done,
+                    onEditingComplete: () => _focusNode.unfocus(),
+                    decoration: const InputDecoration(
+                      suffixIcon: Icon(Icons.mail),
+                      hintText: "Enter Email",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(10)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(10)),
+                          borderSide: BorderSide(
+                              color: Colors.blue
+                          )
+                      ),
                     ),
                     validator: (val)=>val!.isEmpty?"Enter Valid Email":null,
                   ),
+                  
+                  
                   ElevatedButton(
                       onPressed: (){
                         if (_formkey.currentState!.validate()){
                           resetPassword();
                         }
                       },
-                      child: Text("Reset Password"),
+                      child: const Text("Reset Password"),
                   )
                 ],
-              ),
-            ),
-          ),
-        ),
+              )
+          )
       ),
     );
   }
