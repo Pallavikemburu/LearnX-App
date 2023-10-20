@@ -80,7 +80,7 @@ class _MyHomeState extends State<MyHome>{
                 height: hi*0.05,
                 decoration: BoxDecoration(
                   color: mainbg,
-                  borderRadius: BorderRadius.circular(hi*0.025),
+                  borderRadius: BorderRadius.circular(hi*0.005),
                 ),
                 child: Center(
                   child: Text(
@@ -110,7 +110,7 @@ class _MyHomeState extends State<MyHome>{
                 height: hi*0.05,
                 decoration: BoxDecoration(
                   color: mainbg,
-                  borderRadius: BorderRadius.circular(hi*0.025),
+                  borderRadius: BorderRadius.circular(hi*0.005),
                 ),
                 child: Center(
                   child: Text(

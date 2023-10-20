@@ -17,6 +17,7 @@ class Login extends StatefulWidget{
 class _LoginState extends State<Login> {
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _resetmail=TextEditingController();
   final _formkey = GlobalKey<FormState>();
   bool _password_visibility = true;
   IconData _passicon = Icons.remove_red_eye_rounded;
@@ -175,8 +176,30 @@ class _LoginState extends State<Login> {
 
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) =>const PasswordReset()));
+                              AlertDialog(
+                                title: Text("please enter registered email"),
+                                content:  TextFormField(
+                                  controller: _resetmail,
+                                  validator: (val) =>
+                                  val!.isEmpty
+                                      ? "Please Enter email"
+                                      : null,
+                                  decoration: InputDecoration(
+                                    hintText: "Enter Email",
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10)),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        borderSide: BorderSide(
+                                            color: Colors.blue
+                                        )
+                                    ),
+                                  ),
+                                ),
+                              );
                             },
                             child:const Center(
                               child: Text("Forgot password ?", style: TextStyle(color: Colors.blueAccent, fontSize: 20),),
