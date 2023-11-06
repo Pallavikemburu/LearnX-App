@@ -312,8 +312,19 @@ class _LoginState extends State<Login> {
                   ),
 
 
-              Text("-------- or --------"),
-
+              Row(
+                children: [
+                  Expanded(child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Divider(color: Colors.black54,),
+                  )),
+                   Text("OR"),
+                  Expanded(child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Divider(color: Colors.black54,),
+                  )),
+                ],
+              ),
 
 
               Row(
