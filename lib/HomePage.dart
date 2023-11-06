@@ -1,34 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'ExplorePage.dart';
+
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
   @override
   State<HomePage> createState() => _HomeState();
 }
+
 class _HomeState extends State<HomePage>{
   @override
   int selectedPageIndex = 0;
+
   Color tc = const Color.fromARGB(255, 0, 63, 254);
+  Card Course(double wi,double hi){
+    return Card(
+      elevation: 20,
+      shadowColor: Colors.grey,
+      child: Container(
+        width: wi,
+        height: hi,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.green,
+        ),
+        child: Text("C++"),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
+    double wi = MediaQuery.of(context).size.width;
+    double hi = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: const [
-        Center(
-          child: Text(
-            'Home',
-          ),
-        ),
-        Center(
-          child: Text(
-            'Account',
-          ),
-        ),
-        Center(
-          child: Text(
-            'Menu',
-          ),
-        ),
+      body: [
+        ExplorePage(),
+        Course(wi*0.5,wi*0.5),
+        Course(wi*0.5,wi*0.5),
       ][selectedPageIndex],
       bottomNavigationBar: NavigationBar(
         backgroundColor: Colors.white,
@@ -47,6 +56,7 @@ class _HomeState extends State<HomePage>{
               color: tc,
             ),
             icon: Icon(CupertinoIcons.compass),
+
             label: 'Explore',
           ),
           NavigationDestination(

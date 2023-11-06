@@ -1,12 +1,18 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:learnx/SignupPage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'LoginPage.dart';
-import 'welcome_page.dart';
+import 'SignupPage.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp
+  ]);
   await Firebase.initializeApp();
   runApp(const MyApp()); 
 }
@@ -19,6 +25,138 @@ class MyApp extends StatelessWidget{
     return const MaterialApp(
       home: MyHome(),
       debugShowCheckedModeBanner: false,
+    );
+  }
+}
+class MyHome extends StatefulWidget{
+  const MyHome({super.key});
+  @override
+  State<MyHome> createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<MyHome>{
+  Column display(double wi,double hi,String txt,String img,Color tc){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(
+          txt,
+          style: GoogleFonts.roboto(
+              textStyle: TextStyle(
+                fontSize: hi*0.04,
+                color: tc,
+                fontWeight: FontWeight.bold,
+              )
+          ),
+        ),
+        SvgPicture.asset(img),
+      ],
+    );
+  }
+  @override
+  Widget build(BuildContext context){
+    double wi = MediaQuery.of(context).size.width;
+    double hi = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: wi,
+              height: hi*0.8,
+              child: CarouselSlider(
+                  items: [
+                    display(wi*0.9, hi*0.8,
+                        'Start Learning Today!',
+                        'assets/images/student1.svg',
+                        Color.fromARGB(255, 235, 182, 45)
+                    ),
+                    display(wi*0.9, hi*0.8,
+                        'Explore Everything!',
+                        'assets/images/student2.svg',
+                        Color.fromARGB(255, 217, 78, 86)
+                    ),
+                    display(wi*0.9, hi*0.8,
+                        'Sharpen Your Skills!',
+                        'assets/images/student4.svg',
+                        Color.fromARGB(255, 45, 106, 103)
+                    ),
+                    display(wi*0.9, hi*0.8,
+                        'Become Productive!',
+                        'assets/images/student5.svg',
+                        Color.fromARGB(255, 227, 113, 92)
+                    ),
+                  ],
+                  options: CarouselOptions(
+                    height: hi*0.7,
+                    aspectRatio: 16/9,
+                    viewportFraction: 1,
+                    initialPage: 0,
+                    enableInfiniteScroll: true,
+                    reverse: false,
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    scrollDirection: Axis.horizontal,
+                  )
+              ),
+            ),
+
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+              },
+              child: Container(
+                width: wi*0.8,
+                height: hi*0.06,
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(hi*0.05),
+                ),
+                child: Center(
+                  child: Text(
+                    'LOGIN',
+                    style: GoogleFonts.aBeeZee(
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white,
+                        )
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: hi*0.02,),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Signup()));
+              },
+              child: Container(
+                width: wi*0.8,
+                height: hi*0.06,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 25, 147, 223),
+                  borderRadius: BorderRadius.circular(hi*0.05),
+                ),
+                child: Center(
+                  child: Text(
+                    'SIGN UP',
+                    style: GoogleFonts.aBeeZee(
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white,
+                        )
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        )
     );
   }
 }

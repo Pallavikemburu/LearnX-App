@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:learnx/HomePage.dart';
 import 'package:learnx/LoginPage.dart';
-import 'package:learnx/PasswordResetPage.dart';
 
 class Signup extends StatefulWidget{
   const Signup({super.key});
