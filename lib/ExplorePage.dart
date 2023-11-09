@@ -112,54 +112,56 @@ class ExploreState extends State<ExplorePage>{
   Widget build(BuildContext context){
     double wi = MediaQuery.of(context).size.width;
     double hi = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.all(hi*0.02),
-        scrollDirection: Axis.vertical,
-        children: [
-          Container(
-            width: wi,
-            height: hi*0.15,
-            padding: EdgeInsets.all(hi*0.02),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: wi*0.07,
-                ),
-                SizedBox(width: hi*0.02,),
-                Text(
-                  "Varun3366",
-                  style: GoogleFonts.aboreto(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: hi*0.025,
-                      )
+    return SafeArea(
+      child: Scaffold(
+        body: ListView(
+          padding: EdgeInsets.all(hi*0.02),
+          scrollDirection: Axis.vertical,
+          children: [
+            Container(
+              width: wi,
+              height: hi*0.15,
+              padding: EdgeInsets.all(hi*0.02),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: wi*0.07,
                   ),
+                  SizedBox(width: hi*0.02,),
+                  Text(
+                    "Varun3366",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: hi*0.025,
+                        )
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Text(
+              "Welcome back!",
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: hi*0.04,
                 )
-              ],
+              ),
             ),
-          ),
-          Text(
-            "Welcome back!",
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: hi*0.04,
-              )
-            ),
-          ),
-          SizedBox(height: hi*0.02,),
-          Course(wi,hi*0.4,"POTD",Colors.amberAccent),
-          Category(wi, hi, "Top Courses", 5),
-          Category(wi, hi, "Programming", 5),
-          Category(wi, hi, "Devops", 5),
-          Category(wi, hi, "Web Development", 3),
-          Category(wi, hi, "Data Structures & Algorithms", 10),
-          Category(wi, hi, "App Development", 2),
-        ],
-      )
+            SizedBox(height: hi*0.02,),
+            Course(wi,hi*0.4,"POTD",Colors.amberAccent),
+            Category(wi, hi, "Top Courses", 5),
+            Category(wi, hi, "Programming", 5),
+            Category(wi, hi, "Devops", 5),
+            Category(wi, hi, "Web Development", 3),
+            Category(wi, hi, "Data Structures & Algorithms", 10),
+            Category(wi, hi, "App Development", 2),
+          ],
+        )
+      ),
     );
   }
 }

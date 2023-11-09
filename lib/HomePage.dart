@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:learnx/settings_ui.dart';
 import 'ExplorePage.dart';
 
 class HomePage extends StatefulWidget{
@@ -37,7 +37,7 @@ class _HomeState extends State<HomePage>{
       body: [
         ExplorePage(),
         Course(wi*0.5,wi*0.5),
-        Course(wi*0.5,wi*0.5),
+        settings_page(),
       ][selectedPageIndex],
       bottomNavigationBar: NavigationBar(
         backgroundColor: Colors.white,
