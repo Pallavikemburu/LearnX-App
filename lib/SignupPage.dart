@@ -19,20 +19,15 @@ class _SignupState extends State<Signup>{
 
   Future<void> registerUser() async {
     final FirebaseAuth user = FirebaseAuth.instance;
-    try {
-        user.createUserWithEmailAndPassword(
-        email: _email.text,
-        password: _password.text,
-      ).then((val){
-        showCustomSnackBar('SignUp successful', Colors.green);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
-      }).onError((error, stackTrace){
-          throw error.hashCode;
-        });
-    }
-    catch (e) {
-      showCustomSnackBar('Registration error: $e', Colors.red);
-    }
+    user.createUserWithEmailAndPassword(
+      email: _email.text,
+      password: _password.text,
+    ).then((val){
+      showCustomSnackBar('SignUp successful', Colors.green);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+    }).onError((error, stackTrace){
+      showCustomSnackBar("Email Already Exists!", Colors.red);
+    });
   }
 
   void showCustomSnackBar(String string, Color color) {
@@ -62,7 +57,7 @@ class _SignupState extends State<Signup>{
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(185, 255, 253, 253),
-        resizeToAvoidBottomInset : false,
+        resizeToAvoidBottomInset : true,
         body: SizedBox(
           height: hi,
           width: wi,

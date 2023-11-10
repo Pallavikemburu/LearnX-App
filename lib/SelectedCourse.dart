@@ -2,17 +2,19 @@ import 'package:curved_progress_bar/curved_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:learnx/SelectedTopic.dart';
 
 class SelectedCourse extends StatefulWidget{
   final String cname;
   final Color cc;
   const SelectedCourse({super.key,required this.cname, required this.cc});
   @override
-  State<SelectedCourse> createState() => _SelectedCourseState(cname: this.cname);
+  State<SelectedCourse> createState() => _SelectedCourseState(cname: this.cname,cc: this.cc);
 }
 class _SelectedCourseState extends State<SelectedCourse>{
   final String cname;
-  _SelectedCourseState({required this.cname});
+  final Color cc;
+  _SelectedCourseState({required this.cname,required this.cc});
   Card Topic(double wi,double hi){
     return Card(
       elevation: 15,
@@ -97,7 +99,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
                   Container(
                     width: wi,
                     height: hi*0.4,
-                    color: Colors.orange,
+                    color: this.cc,
                   ),
                   Container(
                     width: wi,
@@ -142,7 +144,16 @@ class _SelectedCourseState extends State<SelectedCourse>{
                     itemCount: 9, // Change this as needed
                     itemBuilder: (BuildContext context, int gridIndex) {
                       return GridTile(
-                        child: Topic(wi*0.35, wi*0.35),
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,MaterialPageRoute(
+                                builder: (context)=> SelectedTopic(tname: "TopicName", tc: this.cc)
+                              )
+                            );
+                          },
+                          child: Topic(wi*0.35, wi*0.35),
+                        ),
                       );
                     },
                   ),

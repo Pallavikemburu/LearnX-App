@@ -16,12 +16,11 @@ void main() async{
     DeviceOrientation.portraitUp
   ]);
   await Firebase.initializeApp();
-  runApp(const AuthChange());
+  runApp(const MyApp());
 }
 
 class AuthChange extends StatefulWidget {
   const AuthChange({super.key});
-
   @override
   State<AuthChange> createState() => AuthChangeState();
 }
@@ -36,7 +35,7 @@ class AuthChangeState extends State<AuthChange> {
             return const HomePage();
           }
           else{
-            return const MyApp();
+            return const MyHome();
           }
         }
     );
@@ -86,8 +85,9 @@ class _MyHomeState extends State<MyHome>{
     double hi = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          body: ListView(
+            padding: EdgeInsets.symmetric(horizontal: wi*0.05),
+            scrollDirection: Axis.vertical,
             children: [
               SizedBox(
                 width: wi,
@@ -137,7 +137,7 @@ class _MyHomeState extends State<MyHome>{
                 },
                 child: Container(
                   width: wi*0.8,
-                  height: hi*0.06,
+                  height: wi*0.13,
                   decoration: BoxDecoration(
                     color: Colors.orange,
                     borderRadius: BorderRadius.circular(hi*0.05),
@@ -163,7 +163,7 @@ class _MyHomeState extends State<MyHome>{
                 },
                 child: Container(
                   width: wi*0.8,
-                  height: hi*0.06,
+                  height: wi*0.13,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 25, 147, 223),
                     borderRadius: BorderRadius.circular(hi*0.05),

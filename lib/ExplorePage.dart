@@ -71,7 +71,7 @@ class ExploreState extends State<ExplorePage>{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: hi*0.04,),
+        SizedBox(height: hi*0.03,),
         Text(
           catname,
           textAlign: TextAlign.left,
@@ -83,7 +83,7 @@ class ExploreState extends State<ExplorePage>{
               )
           ),
         ),
-        SizedBox(height: hi*0.01,),
+        SizedBox(height: wi*0.01,),
         SizedBox(
           width: wi,
           height: hi*0.24,
