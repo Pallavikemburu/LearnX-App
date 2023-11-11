@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:learnx/CourseData.dart';
 
@@ -115,6 +116,7 @@ class ExploreState extends State<ExplorePage>{
     return SafeArea(
       child: Scaffold(
         body: ListView(
+          shrinkWrap: true,
           padding: EdgeInsets.all(hi*0.02),
           scrollDirection: Axis.vertical,
           children: [
@@ -144,11 +146,11 @@ class ExploreState extends State<ExplorePage>{
             Text(
               "Welcome back!",
               style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: hi*0.04,
-                )
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: hi*0.04,
+                  )
               ),
             ),
             SizedBox(height: hi*0.02,),

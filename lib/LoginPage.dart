@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
         content:  Text(
             string,
             style: TextStyle(
-              color: color == Colors.red ? Colors.black : Colors.white,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),

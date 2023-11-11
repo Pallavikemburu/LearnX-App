@@ -116,11 +116,17 @@ class _SelectedCourseState extends State<SelectedCourse>{
                 padding: EdgeInsets.all(hi*0.02),
                 scrollDirection: Axis.vertical,
                 children : [
+                  SizedBox(height: hi*0.01,),
+                  Row(
+                    children: [
+
+                    ],
+                  ),
                   SizedBox(
                     width: wi,
-                    height: hi*0.26,
+                    height: hi*0.2,
                     child: Text(
-                      "${this.cname}",
+                      "\n${this.cname}",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
@@ -131,6 +137,13 @@ class _SelectedCourseState extends State<SelectedCourse>{
                       ),
                     ),
                   ),
+                  CurvedCircularProgressIndicator(
+                    value: 1/5,
+                    strokeWidth: 8,
+                    backgroundColor: Colors.grey.shade400,
+                    color: Colors.green,
+                  ),
+                  SizedBox(height: hi*0.05,),
                   GridView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.all(8),
