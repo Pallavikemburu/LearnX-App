@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class settings_page extends StatefulWidget {
@@ -11,123 +12,46 @@ class settings_page extends StatefulWidget {
 
 class _settings_pageState extends State<settings_page> {
   @override
-
-
-  Widget build(BuildContext context) {
-
-    double hi=MediaQuery.of(context).size.height;
-    double wi=MediaQuery.of(context).size.width;
-
-
-    final List<Setting> settings = [
-      Setting(
-        title: "Dark mode",
-        icon: CupertinoIcons.moon_circle,
-      ),
-      Setting(
-        title: "Notification",
-        icon: Icons.notifications,
-      ),
-      Setting(
-        title: "privacy",
-        icon: CupertinoIcons.lock,
-      ),
-      Setting(
-        title: "Security ",
-        icon: CupertinoIcons.lock_shield,
-      ),
-      Setting(
-        title: "Main",
-        icon: CupertinoIcons.settings,
-      ),
-      Setting(
-        title: "Report a problem",
-        icon: CupertinoIcons.flag,
-      ),
-
-    ];
-
-
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child:  SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: hi*0.15,
-                  child: Center(child: Text("Settings",style: TextStyle(fontSize: 32),)),
-                ),
-
+  Widget build(BuildContext context){
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            children: [
+              const SizedBox(height: 15,),
               Row(
                 children: [
                   CircleAvatar(
-                    radius: wi*0.1,
+                    radius: 40,
+                    backgroundColor: Colors.orange,
+                    child: Text("V"),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(
+                    width: 25,
+                  ),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("User Name",
-                        style: TextStyle(fontWeight: FontWeight.bold,),
+                      Text(
+                        "UserName",
+                        textAlign: TextAlign.left,
                       ),
-                      Text("email")
+                      Text(
+                        "email@gmail.com",
+                        textAlign: TextAlign.left,
+                      )
                     ],
-                  ),
-                 // Icon(Icons.chevron_right),
+                  )
                 ],
               ),
+              const SizedBox(height: 10,),
+              Divider(),
+              const SizedBox(height: 10,),
 
-
-                const SizedBox(height: 20),
-                const Divider(),
-                const SizedBox(height: 10),
-                Column(
-                  children: List.generate(
-                    settings.length, (index) => SettingTile(setting: settings[index]),
-                  ),
-                ),
-              ],
-            ),
+            ],
           ),
         ),
+      )
     );
   }
-}
-
-class SettingTile extends StatelessWidget {
-  final Setting setting;
-  const SettingTile({
-    super.key,
-    required this.setting,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // give route
-      },
-      child: ListTile(
-          leading: Icon(setting.icon),
-        title: Text(setting.title),
-        trailing: Icon(Icons.chevron_right),
-      ),
-    );
-  }
-}
-
-
-class Setting {
-  final String title;
-  final IconData icon;
-
-  Setting({
-    required this.title,
-    required this.icon,
-  });
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/themes/github.dart';
 
 class SelectedBlog extends StatefulWidget{
   final String blogName;
@@ -9,18 +11,21 @@ class SelectedBlog extends StatefulWidget{
   @override
   State<SelectedBlog> createState() => _SelectedBlogState(blogName: blogName,blogColor: blogColor);
 }
+
 class _SelectedBlogState extends State<SelectedBlog>{
   final String blogName;
   final Color blogColor;
 
   _SelectedBlogState({required this.blogName,required this.blogColor});
 
-  Container TextContent(double wi){
+  Container TextContent(double wi,index){
     return Container(
       width: wi,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10)
+        borderRadius: index==0?BorderRadius.only(
+          topLeft: Radius.circular(10),topRight: Radius.circular(10),
+        ):BorderRadius.circular(0),
       ),
       child: Padding(
         padding: EdgeInsets.all(15),
@@ -35,10 +40,10 @@ class _SelectedBlogState extends State<SelectedBlog>{
               'will not work because the array, when declared, '
               'gets memory statically allocated, and thus '
               'compiler is the only one that can destroy it. ',
-          style: GoogleFonts.aBeeZee(
+          style: GoogleFonts.poppins(
               textStyle: const TextStyle(
-                letterSpacing: 1.7,
-                fontSize: 22,
+                letterSpacing: 1,
+                fontSize: 17,
                 color: Colors.black54,
               )
           ),
@@ -46,42 +51,20 @@ class _SelectedBlogState extends State<SelectedBlog>{
       )
     );
   }
-  Container CodeContent(double wi){
+
+  Container ImageContent(double wi,index){
     return Container(
-      width: wi,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade400,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Text(
-        '#include<bits/stdc++.h>\n'
-        'using namespace std;\n'
-        '#define ll long long\n'
-        'll solve(ll n){\n'
-        '\tll res = 0;\n'
-        '\twhile (n){\n'
-        '\t\tres+=n;\n'
-        '\t\tn/=2;\n'
-        '\t}\n'
-        '\treturn res;\n'
-        '}\n'
-        'int main(){\n'
-        'int t;\n'
-        'cin>>t;\n'
-        'while (t--){\n'
-        'll n;\n'
-        'cin>>n;\n'
-        'cout<<solve(n)<<endl;\n'
-        '}\n'
-        '}\n',
-        style: GoogleFonts.aBeeZee(
-            textStyle: const TextStyle(
-              letterSpacing: 1.7,
-              fontSize: 22,
-              color: Colors.black,
-            )
+        width: wi,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: index==0?BorderRadius.only(
+            topLeft: Radius.circular(10),topRight: Radius.circular(10),
+          ):BorderRadius.circular(0),
         ),
-      ),
+        child: Image(
+          image:NetworkImage('https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_640.jpg'),
+          fit: BoxFit.contain,
+        )
     );
   }
 
@@ -118,9 +101,10 @@ class _SelectedBlogState extends State<SelectedBlog>{
                   padding: EdgeInsets.all(hi*0.02),
                   scrollDirection: Axis.vertical,
                   children : [
+                    SizedBox(height: hi*0.1,),
                     SizedBox(
                       width: wi,
-                      height: hi*0.26,
+                      height: hi*0.15,
                       child: Text(
                         "Blog Name",
                         textAlign: TextAlign.center,
@@ -137,12 +121,12 @@ class _SelectedBlogState extends State<SelectedBlog>{
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
                       itemCount: 5, // Change this as needed
-                      itemBuilder: (BuildContext context, int gridIndex) {
-                        if (gridIndex%2==1){
-                          return CodeContent(wi);
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index%2==1){
+                          return ImageContent(wi,index);
                         }
                         else{
-                          return TextContent(wi);
+                          return TextContent(wi,index);
                         }
                       },
                       separatorBuilder: (BuildContext context,int index){

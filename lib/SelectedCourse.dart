@@ -25,7 +25,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
       child: Container(
         width: wi,
         height: hi,
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
@@ -82,6 +82,18 @@ class _SelectedCourseState extends State<SelectedCourse>{
     );
   }
 
+  String process(String s){
+    String res = "\n\n";
+    for (int i=0; i<s.length; i++){
+      if (s[i]==' '){
+        res+='\n';
+      }
+      else{
+        res+=s[i];
+      }
+    }
+    return res;
+  }
 
   @override
   Widget build(BuildContext context){
@@ -113,35 +125,64 @@ class _SelectedCourseState extends State<SelectedCourse>{
               width: wi,
               height: hi,
               child: ListView(
-                padding: EdgeInsets.all(hi*0.02),
+                padding: EdgeInsets.all(wi*0.05),
                 scrollDirection: Axis.vertical,
                 children : [
-                  SizedBox(height: hi*0.01,),
                   Row(
                     children: [
-
-                    ],
-                  ),
-                  SizedBox(
-                    width: wi,
-                    height: hi*0.2,
-                    child: Text(
-                      "\n${this.cname}",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: hi*0.04,
-                          )
+                      SizedBox(
+                        width: wi*0.55,
+                        height: hi*0.3,
+                        child: Text(
+                          process(this.cname),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 24,
+                              )
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  CurvedCircularProgressIndicator(
-                    value: 1/5,
-                    strokeWidth: 8,
-                    backgroundColor: Colors.grey.shade400,
-                    color: Colors.green,
+                      SizedBox(width: wi*0.05,),
+                      SizedBox(
+                        width: wi*0.3,
+                        height: wi*0.3,
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: wi*0.3,
+                              height: wi*0.3,
+                              child: CurvedCircularProgressIndicator(
+                                value: 1/5,
+                                strokeWidth: 8,
+                                animationDuration: Duration(milliseconds: 1300),
+                                backgroundColor: Colors.grey.shade500,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: wi*0.3,
+                              height: wi*0.3,
+                              child: Center(
+                                child: Text(
+                                  "43%\nCompleted",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: 13,
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: hi*0.05,),
                   GridView.builder(

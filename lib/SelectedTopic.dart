@@ -33,7 +33,7 @@ class _SelectedTopicState extends State<SelectedTopic>{
               textStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade700,
-                fontSize: hi*0.04,
+                fontSize: 20,
               )
           ),
         ),
@@ -44,7 +44,7 @@ class _SelectedTopicState extends State<SelectedTopic>{
               textStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade700,
-                fontSize: hi*0.035,
+                fontSize: 20,
               )
           ),
         ),
@@ -86,9 +86,10 @@ class _SelectedTopicState extends State<SelectedTopic>{
                   padding: EdgeInsets.all(hi*0.02),
                   scrollDirection: Axis.vertical,
                   children : [
+                    SizedBox(height: hi*0.1,),
                     SizedBox(
                       width: wi,
-                      height: hi*0.26,
+                      height: hi*0.15,
                       child: Text(
                         "${this.tname}",
                         textAlign: TextAlign.center,

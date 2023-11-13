@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:learnx/settings_ui.dart';
 import 'ExplorePage.dart';
+import 'LearnPage.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -36,7 +37,7 @@ class _HomeState extends State<HomePage>{
     return Scaffold(
       body: [
         ExplorePage(),
-        Course(wi*0.5,wi*0.5),
+        LearnPage(),
         settings_page(),
       ][selectedPageIndex],
       bottomNavigationBar: NavigationBar(
