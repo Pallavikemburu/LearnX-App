@@ -111,7 +111,13 @@ class _SelectedCourseState extends State<SelectedCourse>{
                   Container(
                     width: wi,
                     height: hi*0.4,
-                    color: this.cc,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279178.jpg?size=626&ext=jpg&ga=GA1.1.833117897.1699424469&semt=ais'),
+                        fit: BoxFit.cover
+                      ),
+                      color: this.cc,
+                    ),
                   ),
                   Container(
                     width: wi,
@@ -213,6 +219,16 @@ class _SelectedCourseState extends State<SelectedCourse>{
                   ),
                 ],
               )
+            ),
+            IconButton(
+              icon: Icon(
+                CupertinoIcons.left_chevron,
+                size: 35,
+                color: Colors.white,
+              ),
+              onPressed: (){
+                Navigator.pop(context);
+              },
             )
           ],
         ),

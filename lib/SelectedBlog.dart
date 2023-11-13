@@ -135,6 +135,16 @@ class _SelectedBlogState extends State<SelectedBlog>{
                     ),
                   ],
                 )
+            ),
+            IconButton(
+              icon: Icon(
+                CupertinoIcons.left_chevron,
+                size: 35,
+                color: Colors.black,
+              ),
+              onPressed: (){
+                Navigator.pop(context);
+              },
             )
           ],
         ),

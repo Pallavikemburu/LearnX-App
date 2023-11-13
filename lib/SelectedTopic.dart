@@ -125,6 +125,16 @@ class _SelectedTopicState extends State<SelectedTopic>{
                     ),
                   ],
                 )
+            ),
+            IconButton(
+              icon: Icon(
+                CupertinoIcons.left_chevron,
+                size: 35,
+                color: Colors.white,
+              ),
+              onPressed: (){
+                Navigator.pop(context);
+              },
             )
           ],
         ),

@@ -21,45 +21,21 @@ class ExploreState extends State<LearnPage>{
       child: Container(
         width: wi,
         height: hi,
+        padding: EdgeInsets.all(wi*0.15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 254, 187, 187),
+          color: c,
         ),
-        child: Column(
-          children: [
-            Container(
-              width: wi,
-              height: hi*0.65,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(14),
-                    topLeft: Radius.circular(14),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        'https://cdn.pixabay.com/photo/2016/12/28/10/10/image-1935809_640.png'
-                    ),
-                    fit: BoxFit.cover,
-                  )
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "$cname",
-                textAlign: TextAlign.left,
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontSize: hi*0.065,
-                    )
-                ),
-              ),
-            )
-          ],
+        child: Text(
+          "$cname",
+          textAlign: TextAlign.left,
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: hi*0.09,
+              )
+          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:learnx/CourseData.dart';
+import 'POTD.dart';
 import 'SelectedCourse.dart';
 
 class ExplorePage extends StatefulWidget{
@@ -36,45 +37,21 @@ class ExploreState extends State<ExplorePage>{
       child: Container(
         width: wi,
         height: hi,
+        padding: EdgeInsets.all(wi*0.15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 31, 65, 114)
+          color: c,
         ),
-        child: Column(
-          children: [
-            Container(
-              width: wi,
-              height: hi*0.65,
-              padding: EdgeInsets.all(hi*0.007),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(14),
-                  topLeft: Radius.circular(14),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-              ),
-              child: Icon(
-                CupertinoIcons.arrow_3_trianglepath,
-                color: Color.fromARGB(255, 134, 244, 238),
-                size: hi*0.5,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "$cname",
-                textAlign: TextAlign.left,
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 134, 244, 238),
-                      fontSize: hi*0.08,
-                    )
-                ),
-              ),
-            )
-          ],
+        child: Text(
+          "$cname",
+          textAlign: TextAlign.left,
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: hi*0.09,
+              )
+          ),
         ),
       ),
     );
@@ -123,7 +100,7 @@ class ExploreState extends State<ExplorePage>{
 
   Card potdBox(double wi,double hi){
     return Card(
-      elevation: 10,
+      elevation: 15,
       shadowColor: Colors.grey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -134,7 +111,7 @@ class ExploreState extends State<ExplorePage>{
         padding: EdgeInsets.all(hi*0.08),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 215, 215, 214),
+          color: Color.fromARGB(255, 255, 255, 255),
         ),
         child: Column(
           children: [
@@ -165,22 +142,31 @@ class ExploreState extends State<ExplorePage>{
                 ElevatedButton(
                   onPressed: (){},
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.green),
+                    backgroundColor: MaterialStatePropertyAll(Color.fromARGB(
+                        255, 66, 146, 130)),
                     shape: MaterialStatePropertyAll(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                       )
-                    )
+                    ),
+                    elevation: MaterialStatePropertyAll(15)
                   ),
-                  child: Text(
-                    "Solve Now",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: wi*0.055,
-                        )
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,MaterialPageRoute(builder: (context)=>POTD())
+                      );
+                    },
+                    child: Text(
+                      "Solve Now",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: wi*0.055,
+                          )
+                      ),
                     ),
                   ),
                 )
@@ -203,29 +189,6 @@ class ExploreState extends State<ExplorePage>{
           padding: EdgeInsets.all(hi*0.02),
           scrollDirection: Axis.vertical,
           children: [
-            Container(
-              width: wi,
-              height: hi*0.15,
-              padding: EdgeInsets.all(hi*0.02),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: wi*0.07,
-                  ),
-                  SizedBox(width: hi*0.02,),
-                  Text(
-                    "Varun3366",
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: hi*0.025,
-                        )
-                    ),
-                  )
-                ],
-              ),
-            ),
             Text(
               "Welcome back!",
               style: GoogleFonts.poppins(
