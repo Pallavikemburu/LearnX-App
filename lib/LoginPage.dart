@@ -98,6 +98,7 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                     child: Form(
                       key: _formkey,
                       child: Center(
+
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [

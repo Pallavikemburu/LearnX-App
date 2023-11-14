@@ -215,6 +215,7 @@ class _SignupState extends State<Signup>{
                               borderRadius: BorderRadius.circular(hi*0.025),
                               color: Colors.orange
                             ),
+
                             child: Center(
                               child: Text(
                                 "SIGN UP",
