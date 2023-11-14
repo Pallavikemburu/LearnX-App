@@ -207,6 +207,7 @@ class _SignupState extends State<Signup>{
                                 showCustomSnackBar('Invalid Password',Colors.red);
                               }
                             }
+
                           },
                           child: Container(
                             width: wi*0.75,

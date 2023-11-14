@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget{
       debugShowCheckedModeBanner: false,
     );
   }
+
 }
 class MyHome extends StatefulWidget{
   const MyHome({super.key});
@@ -82,6 +83,7 @@ class _MyHomeState extends State<MyHome>{
                 color: tc,
                 fontWeight: FontWeight.bold,
               )
+
           ),
         ),
         SvgPicture.asset(img),
