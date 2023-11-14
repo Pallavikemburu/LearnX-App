@@ -114,7 +114,6 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                               ),
                             ),//log in
                             SizedBox(height: hi*0.07,),
-
                             TextFormField(
                               keyboardType: TextInputType.text,
                               controller: _email,
