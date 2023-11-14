@@ -14,7 +14,7 @@ class settings_page extends StatefulWidget {
 }
 
 class _settings_pageState extends State<settings_page> {
-  DarkThemeProvider themeChangeProvider = new DarkThemeProvider();
+  /*DarkThemeProvider themeChangeProvider = new DarkThemeProvider();
 
 
   @override
@@ -26,7 +26,7 @@ class _settings_pageState extends State<settings_page> {
   void getCurrentAppTheme() async {
     themeChangeProvider.darkTheme =
     await themeChangeProvider.darkThemePreference.getTheme();
-  }
+  }   */
 
   Future<void> logoutUser(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -179,20 +179,6 @@ class _settings_pageState extends State<settings_page> {
                   );
                 }
              ),
-              GestureDetector(
-                child: ListTile(
-                  leading: Icon(Icons.dark_mode),
-                  title: Text("Dark Mode"),
-                  trailing:CupertinoSwitch(
-    value: themeChangeProvider.darkTheme,
-    onChanged: (bool value) {
-    setState(() {
-      value=!value;
-    });
-    }
-                  ),
-                ),
-              )
             ]
          )
        )
@@ -269,6 +255,8 @@ class _settings_pageState extends State<settings_page> {
   }
 }
 
+
+/*
 class DarkThemeProvider with ChangeNotifier {
   DarkThemePreference darkThemePreference = DarkThemePreference();
   bool _darkTheme = false;
@@ -294,7 +282,7 @@ class DarkThemePreference {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(THEME_STATUS) ?? false;
   }
-}
+}     */
 
 String info =
 "Welcome to LearnX, your one-stop destination for a diverse range of technology-related courses and insightful blogs. Whether you're a beginner or an experienced professional, our platform is designed to empower you with knowledge across various tech domains. Immerse yourself in a rich learning experience, explore captivating blogs, and challenge your mind with daily puzzles.\n\nKey Features:\n\n1. Extensive Course Library:\n   Dive into our extensive library of technology courses covering a wide array of topics. From programming languages to cutting-edge technologies, we've got you covered.\n\n2. Informative Blogs:\n   Enhance your understanding of technology through freely accessible blogs. Our platform offers a wealth of information, keeping you updated on the latest trends, best practices, and insights from industry experts.\n\n3. Daily Puzzles:\n  Sharpen your problem-solving skills with a new puzzle every day. Challenge yourself and witness the improvement in your analytical thinking and logical reasoning.\n\n4. Structured Learning Paths:\n   Our courses are meticulously organized into topics and subtopics, providing a clear roadmap for your learning journey. Track your progress easily and stay motivated as you complete each milestone.\n\n5. User-Friendly Interface:\n  Navigate through the app effortlessly with a user-friendly interface. Intuitive design ensures a seamless learning experience, making it easy for users to access courses, blogs, and puzzles.\n\nDesign Team :\n  Varun - 21P31A0541\n   Sai Pradeep - 21P31A0504\n   Ashok Kumar - 21P31A0530\n   Pallavi - 21P31A0520";

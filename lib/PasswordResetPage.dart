@@ -68,7 +68,7 @@ class _PasswordResetState extends State<PasswordReset>{
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(wi*0.25),bottomRight:Radius.circular(wi*0.25), ),
         color: Colors.teal[400],
         )
-       ),//Orange layyer
+       ),
 
     SizedBox(
     height: hi,
