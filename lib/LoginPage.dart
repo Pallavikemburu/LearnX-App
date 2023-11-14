@@ -108,7 +108,7 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
-                                    fontSize: hi*0.030,
+                                    fontSize: hi*0.039,
                                   )
                               ),
                             ),//log in
@@ -172,13 +172,21 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                             SizedBox(height: hi*0.07,child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text("Forgot Password?",style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                    fontSize: hi*0.017,
-                                    color: Colors.blue,
+                                GestureDetector(
+                                  onTap:(){
+                                    Navigator.popAndPushNamed((context), "4");
 
-                                  )
-                                ),),
+                              },
+
+
+                                  child: Text("Forgot Password?",style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      fontSize: hi*0.017,
+                                      color: Colors.blue,
+
+                                    )
+                                  ),),
+                                ),
                               ],
                             ),),
                             InkWell(
@@ -209,7 +217,7 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                                         textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
-                                          fontSize: hi*0.03,
+                                          fontSize: hi*0.025,
                                         )
                                     ),
                                   ),

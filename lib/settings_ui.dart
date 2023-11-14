@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:learnx/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class settings_page extends StatefulWidget {

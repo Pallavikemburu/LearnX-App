@@ -50,11 +50,14 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return MaterialApp(
-      // initialRoute: '/home', // Set the initial route
-      // routes: {
-      //   '/home': (context) => HomePage(),
-      //   '/login': (context) => LoginPage(),
-      // },
+      initialRoute: '0',
+      routes: {
+        '0':(context)=>AuthChange(),
+        '1':(context)=> MyHome(),
+        '2':(context)=>Login(),
+        '3':(context)=>Signup(),
+        '4':(context)=>PasswordReset(),
+      },
       home:MyHome(),
       debugShowCheckedModeBanner: false,
     );
@@ -139,7 +142,7 @@ class _MyHomeState extends State<MyHome>{
 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+                  Navigator.popAndPushNamed((context), "2");
                 },
                 child: Container(
                   width: wi*0.8,
@@ -165,7 +168,8 @@ class _MyHomeState extends State<MyHome>{
               SizedBox(height: hi*0.02,),
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const Signup()));
+
+                  Navigator.popAndPushNamed((context), "3");
                 },
                 child: Container(
                   width: wi*0.8,
