@@ -48,7 +48,12 @@ class MyApp extends StatelessWidget{
   const MyApp({super.key});
   @override
   Widget build(BuildContext context){
-    return const MaterialApp(
+    return MaterialApp(
+      // initialRoute: '/home', // Set the initial route
+      // routes: {
+      //   '/home': (context) => HomePage(),
+      //   '/login': (context) => LoginPage(),
+      // },
       home: MyHome(),
       debugShowCheckedModeBanner: false,
     );
