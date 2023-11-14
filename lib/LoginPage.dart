@@ -209,7 +209,7 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                                         textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
-                                          fontSize: hi*0.03,
+                                          fontSize: hi*0.022,
                                         )
                                     ),
                                   ),
