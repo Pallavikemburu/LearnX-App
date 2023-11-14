@@ -59,23 +59,6 @@ class _SelectedCourseState extends State<SelectedCourse>{
                   )
               ),
             ),
-            Text(
-              "2/5",
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey.shade800,
-                    fontSize: hi*0.09,
-                  )
-              ),
-            ),
-            SizedBox(height: hi*0.04,),
-            CurvedLinearProgressIndicator(
-              value: 1/5,
-              strokeWidth: 8,
-              backgroundColor: Colors.grey.shade400,
-              color: Colors.green,
-            ),
           ],
         ),
       ),
@@ -113,7 +96,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
                     height: hi*0.4,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage('https://img.freepik.com/free-photo/abstract-gradient-neon-lights_23-2149279178.jpg?size=626&ext=jpg&ga=GA1.1.833117897.1699424469&semt=ais'),
+                        image: NetworkImage('https://img.freepik.com/free-vector/background-gradient-green-tones_23-2148360340.jpg?size=626&ext=jpg&ga=GA1.1.833117897.1699424469&semt=ais'),
                         fit: BoxFit.cover
                       ),
                       color: this.cc,
@@ -134,61 +117,20 @@ class _SelectedCourseState extends State<SelectedCourse>{
                 padding: EdgeInsets.all(wi*0.05),
                 scrollDirection: Axis.vertical,
                 children : [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: wi*0.55,
-                        height: hi*0.3,
-                        child: Text(
-                          process(this.cname),
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 24,
-                              )
-                          ),
-                        ),
+                  SizedBox(
+                    width: wi*0.55,
+                    height: hi*0.25,
+                    child: Text(
+                      process(this.cname),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 24,
+                          )
                       ),
-                      SizedBox(width: wi*0.05,),
-                      SizedBox(
-                        width: wi*0.3,
-                        height: wi*0.3,
-                        child: Stack(
-                          children: [
-                            SizedBox(
-                              width: wi*0.3,
-                              height: wi*0.3,
-                              child: CurvedCircularProgressIndicator(
-                                value: 1/5,
-                                strokeWidth: 8,
-                                animationDuration: Duration(milliseconds: 1300),
-                                backgroundColor: Colors.grey.shade500,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              width: wi*0.3,
-                              height: wi*0.3,
-                              child: Center(
-                                child: Text(
-                                  "43%\nCompleted",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                      )
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   SizedBox(height: hi*0.05,),
                   GridView.builder(

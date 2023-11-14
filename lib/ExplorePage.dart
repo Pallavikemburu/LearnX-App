@@ -26,6 +26,18 @@ class ExploreState extends State<ExplorePage>{
       ),
     );
   }
+  String process(String s){
+    String res = "";
+    for (int i=0; i<s.length; i++){
+      if (s[i]==' '){
+        res+='\n';
+      }
+      else{
+        res+=s[i];
+      }
+    }
+    return res;
+  }
 
   Card Course(double wi,double hi,String cname,Color c){
     return Card(
@@ -37,13 +49,13 @@ class ExploreState extends State<ExplorePage>{
       child: Container(
         width: wi,
         height: hi,
-        padding: EdgeInsets.all(wi*0.15),
+        padding: EdgeInsets.all(wi*0.1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: c,
         ),
         child: Text(
-          "$cname",
+          process(cname),
           textAlign: TextAlign.left,
           style: GoogleFonts.poppins(
               textStyle: TextStyle(
@@ -164,7 +176,7 @@ class ExploreState extends State<ExplorePage>{
                           textStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            fontSize: wi*0.055,
+                            fontSize: wi*0.05,
                           )
                       ),
                     ),
