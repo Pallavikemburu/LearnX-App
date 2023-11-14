@@ -47,138 +47,203 @@ class _LoginState extends State<Login> {
             ),
           ),
         behavior:  SnackBarBehavior.floating,
+
       ),
     );
   }
+Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool Ispassword ) async {
+  return TextField(
+    keyboardType: TextInputType.text,style:TextStyle(
+      fontSize: height*0.02,
+      fontWeight: FontWeight.bold
+    ),
+    controller: contoller,
+
+  );
+}
   @override
   Widget build(BuildContext context) {
     double wi = MediaQuery.of(context).size.width;
     double hi = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-          body: SizedBox(
-            height: hi,
-            width: wi,
-            child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: wi*0.05),
-                child: Form(
-                  key: _formkey,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "Login to your Account",
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: hi*0.035,
-                              )
-                          ),
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.text,
-                          controller: _email,
-                          validator: (val) => val!.isEmpty ? "Please Enter Email" : null,
-                          decoration: InputDecoration(
-                            suffixIcon: Icon(
-                              CupertinoIcons.mail_solid,
-                              size: hi*0.05,
-                            ),
-                            hintText: "Enter Your Email",
-                            hintStyle: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade600,
-                                fontSize: hi*0.025,
-                              ),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(50)),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.text,
-                          controller: _password,
-                          validator: (val) => val!.isEmpty ? "Please Enter Password" : null,
-                          decoration: InputDecoration(
-                            suffixIcon: const Icon(Icons.account_circle_outlined),
-                            hintText: "Enter Password",
-                            hintStyle: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade600,
-                                fontSize: hi*0.025,
-                              ),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(50)),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: (){
-                            if (_formkey.currentState!.validate()){
-                              LoginUser();
-                            }
-                          },
-                          child: Container(
-                            width: wi*0.75,
-                            height: hi*0.05,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(hi*0.025),
-                                color: Colors.lightBlue
-                            ),
-                            child: Text(
-                              "SIGN IN",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: hi*0.03,
-                                  )
-                              ),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+        resizeToAvoidBottomInset: false,
+       // backgroundColor: Colors.orangeAccent,
+          body: Stack(
+            children: [
+
+              Container(
+                height: hi*0.30,
+                width: wi,
+                decoration: BoxDecoration(
+                  // image: DecorationImage(image: AssetImage("assets/images/Login.png"),
+                  //     fit: BoxFit.contain,
+                  //     alignment: Alignment.topCenter,),
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(wi*0.25),bottomRight:Radius.circular(wi*0.25), ),
+                  color: Colors.orangeAccent,
+                )
+              ),//Orange layyer
+              Container(
+                height: hi*0.25,
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage("assets/images/Log_.png"),alignment: Alignment.topCenter),
+
+                ),
+              ),
+              SizedBox(
+                height: hi,
+                width: wi,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: wi*0.05),
+                    child: Form(
+                      key: _formkey,
+                      child: Center(
+                        child: Column(
+                          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            SizedBox(height: hi*0.225,),
                             Text(
-                              "Don't Have an Account?",
+                              "Login To Your Account",
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
-                                    fontSize: hi*0.02,
+                                    fontSize: wi*0.062,
                                   )
                               ),
-                            ),
-                            GestureDetector(
+                            ),//log in
+                            SizedBox(height: hi*0.07,),
+
+                            TextFormField(
+                              keyboardType: TextInputType.text,
+                              controller: _email,
+                              validator: (val) => val!.isEmpty ? "Please Enter Email" : null,
+                              decoration: InputDecoration(
+
+                                prefixIcon: Icon(
+                                  CupertinoIcons.mail,size: hi*0.02,
+                                ),
+                                hintText: "Enter Your Email",
+                                hintStyle: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+
+                                    color: Colors.grey.shade600,
+                                    fontSize: hi*0.02,
+                                  ),
+                                ),
+
+                              ),
+
+                            ),//email
+                            SizedBox(height: hi*0.07,),
+                            TextFormField(
+                              keyboardType: TextInputType.text,
+                              controller: _password,
+                              obscureText: _password_visibility,
+                              validator: (val) => val!.isEmpty ? "Please Enter Password" : null,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.account_circle_outlined),
+                                hintText: "Enter Password",
+                                hintStyle: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+
+                                    color: Colors.grey.shade600,
+                                    fontSize: hi*0.02,
+                                  ),
+                                ),
+                                suffixIcon: GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      if(_password_visibility==true){
+                                        _password_visibility=false;
+                                      }
+                                      else{
+                                        _password_visibility=true;
+                                      }
+                                    });
+                                  },
+                                    child: (_password_visibility)? Icon(Icons.visibility) : Icon(Icons.visibility_off)
+
+                                ),
+
+
+                              ),
+                            ),//password
+                            SizedBox(height: hi*0.07,),
+                            InkWell(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Signup()));
+                                FocusScopeNode currentFocus = FocusScope.of(context);
+
+                                if (!currentFocus.hasPrimaryFocus) {
+                                  currentFocus.unfocus();
+                                }
+                                if (_formkey.currentState!.validate()){
+                                  LoginUser();
+                                }
                               },
-                              child: Text(
-                                "SIGN UP",
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue,
-                                      fontSize: hi*0.02,
-                                    )
+                              child: Container(
+                                width: wi*0.75,
+                                height: hi*0.05,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(hi*0.025),
+                                    //border: Border.all(color: Colors.black45),
+                                    color: Colors.blue[400],
+
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "SIGN IN",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: hi*0.03,
+                                        )
+                                    ),
+                                  ),
                                 ),
                               ),
-                            )
+                            ),//Sign in
+                            SizedBox(height: hi*0.07,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't Have an Account? ",
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: hi*0.02,
+                                      )
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Signup()));
+                                  },
+                                  child: Text(
+                                    "SIGN UP",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue,
+                                          fontSize: hi*0.02,
+                                        )
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),//dont have an accounnt
+
                           ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
-            ),
+                        ),
+                      ),
+                    )
+                ),
+              ),
+            ],
           )
       ),
     );

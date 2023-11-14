@@ -60,7 +60,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/1024.png"
+  image_path: "assets/icons/final.png"
 # The following section is specific to Flutter packages.
 flutter:
 
