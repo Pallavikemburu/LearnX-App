@@ -70,7 +70,7 @@ class _PasswordResetState extends State<PasswordReset>{
         )
        ),
 
-    SizedBox(
+     SizedBox(
     height: hi,
     width: wi,
     child: Padding(
