@@ -108,7 +108,7 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
-                                    fontSize: wi*0.062,
+                                    fontSize: hi*0.030,
                                   )
                               ),
                             ),//log in
@@ -169,7 +169,18 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
 
                               ),
                             ),//password
-                            SizedBox(height: hi*0.07,),
+                            SizedBox(height: hi*0.07,child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text("Forgot Password?",style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    fontSize: hi*0.017,
+                                    color: Colors.blue,
+
+                                  )
+                                ),),
+                              ],
+                            ),),
                             InkWell(
                               onTap: (){
                                 FocusScopeNode currentFocus = FocusScope.of(context);
