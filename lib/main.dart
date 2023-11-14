@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:learnx/PasswordResetPage.dart';
 import 'HomePage.dart';
 import 'LoginPage.dart';
 import 'SignupPage.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget{
       //   '/home': (context) => HomePage(),
       //   '/login': (context) => LoginPage(),
       // },
-      home: MyHome(),
+      home:MyHome(),
       debugShowCheckedModeBanner: false,
     );
   }
