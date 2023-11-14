@@ -142,7 +142,7 @@ class _MyHomeState extends State<MyHome>{
 
               InkWell(
                 onTap: (){
-                  Navigator.popAndPushNamed((context), "2");
+                  Navigator.pushNamed((context), "2");
                 },
                 child: Container(
                   width: wi*0.8,
@@ -169,7 +169,7 @@ class _MyHomeState extends State<MyHome>{
               InkWell(
                 onTap: (){
 
-                  Navigator.popAndPushNamed((context), "3");
+                  Navigator.pushNamed((context), "3");
                 },
                 child: Container(
                   width: wi*0.8,

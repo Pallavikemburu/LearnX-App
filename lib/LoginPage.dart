@@ -240,7 +240,7 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                                 ),
                                 GestureDetector(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Signup()));
+                                    Navigator.popAndPushNamed((context), "3");
                                   },
                                   child: Text(
                                     "SIGN UP",

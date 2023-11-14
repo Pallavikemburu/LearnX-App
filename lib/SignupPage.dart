@@ -223,7 +223,7 @@ class _SignupState extends State<Signup>{
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
-                                      fontSize: hi*0.03,
+                                      fontSize: hi*0.025,
                                     )
                                 ),
                               ),
@@ -246,7 +246,7 @@ class _SignupState extends State<Signup>{
                             ),
                             GestureDetector(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+                                Navigator.popAndPushNamed((context), "2");
                               },
                               child: Text(
                                 "SIGN IN",
