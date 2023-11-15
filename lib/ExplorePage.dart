@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,12 +75,14 @@ class ExploreState extends State<ExplorePage>{
 
   Future<Column> Category(double wi,double hi,String catname,String curCat) async {
     List<String> scc = [];
-    for (int i=0; i<cid.length; i++){
-      DocumentSnapshot curC = await dbE.doc(cid[i]).get();
-      if (curC['categoryName'] == curCat){
-        scc.add(cid[i]);
-      }
-    }
+    cid.forEach((element) async {
+      print("""""""""""""""""""""""""""""""""""""""""");
+      DocumentSnapshot curC = await dbE.doc(element).get();
+      String ans=curC.data().toString().contains('categoryname') ? curC.get('categoryname') : ''; //String
+      if(ans==catname){
+
+        scc.add(element);
+    }});
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -248,7 +252,9 @@ class ExploreState extends State<ExplorePage>{
                       if (categorySnapshot.connectionState == ConnectionState.waiting) {
                         return loading(wi, hi);
                       } else {
-                        return categorySnapshot.data ?? Container();
+                        return categorySnapshot.data ?? Container(
+                          child: Text("KO"),
+                        );
                       }
                     },
                   ),

@@ -13,6 +13,7 @@ Future<void> getCid() async {
       .collection('Courses').get();
   querySnapshot.docs.forEach((document){
     cid.add(document.id);
+    //print("_____________________________________${cid}");
   });
 }
 
