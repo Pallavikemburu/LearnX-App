@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:learnx/LoginPage.dart';
+
+import 'LoginPage.dart';
 
 class Signup extends StatefulWidget{
   const Signup({super.key});
@@ -16,21 +18,32 @@ class _SignupState extends State<Signup>{
   final _formkey=GlobalKey<FormState>();
   bool _password_visibility = true;
   bool _password_visibilityi = true;
-
-  IconData _passicon = Icons.remove_red_eye_rounded;
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   Future<void> registerUser() async {
-    final FirebaseAuth user = FirebaseAuth.instance;
-    user.createUserWithEmailAndPassword(
+
+    await auth.createUserWithEmailAndPassword(
       email: _email.text,
       password: _password.text,
-    ).then((val){
-      showCustomSnackBar('SignUp successful', Colors.green);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+    ).then((value) {
+      addUserToFireStore(_email.text, _email.text.split('@')[0]);
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>const Login()));
+      showCustomSnackBar('Signup successful', Colors.green);
     }).onError((error, stackTrace){
-      print(error);
-      showCustomSnackBar("Please Check The Details", Colors.red);
+      showCustomSnackBar('Error while Signup', Colors.red);
     });
+  }
+  Future<void> addUserToFireStore(String email,String username) async {
+    try{
+      await db.collection('Users').doc(auth.currentUser!.uid).set({
+        'Username' : username,
+        'email' : email,
+        'potd' : false
+      });
+    }
+    catch(e){
+      print(e);
+    }
   }
 
   void showCustomSnackBar(String string, Color color) {
