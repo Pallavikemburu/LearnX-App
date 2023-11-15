@@ -71,46 +71,62 @@ class ExploreState extends State<ExplorePage>{
     );
   }
 
-  Column Category(double wi,double hi,String catname,List<String>cc){
+  Future<Column> Category(double wi, double hi, String catname, List<String> cc) async {
+    List<Widget> courseWidgets = [];
+    for (String courseId in cc) {
+      DocumentSnapshot docSnapshot = await dbE.doc(courseId).get();
+      if (docSnapshot.exists) {
+        Map<String, dynamic> curC = docSnapshot.data() as Map<String, dynamic>;
+        Color curCol = Color.fromARGB(
+          curC['color']['a'],
+          curC['color']['r'],
+          curC['color']['g'],
+          curC['color']['b'],
+        );
+        courseWidgets.add(
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,MaterialPageRoute(builder: (context) => SelectedCourse(cname: curC['courseName'], cc: curCol)),
+              );
+            },
+            child: Course(wi * 0.4, wi * 0.4, curC['courseName'], curCol),
+          ),
+        );
+      }
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: hi*0.03,),
+        SizedBox(height: hi * 0.03,),
         Text(
           catname,
           textAlign: TextAlign.left,
           style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-                fontSize: hi*0.028,
-              )
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+              fontSize: hi * 0.028,
+            ),
           ),
         ),
-        SizedBox(height: wi*0.01,),
+        SizedBox(height: wi * 0.01,),
         Container(
           width: wi,
-          height: hi*0.24,
+          height: hi * 0.24,
           child: ListView.separated(
             shrinkWrap: true,
-            padding: EdgeInsets.symmetric(vertical: hi*0.02),
+            padding: EdgeInsets.symmetric(vertical: hi * 0.02),
             scrollDirection: Axis.horizontal,
-            itemCount: cc.length,
-            separatorBuilder: (BuildContext context,int ind){
-              return SizedBox(width: wi*0.02,);
+            itemCount: courseWidgets.length,
+            separatorBuilder: (BuildContext context, int ind) {
+              return SizedBox(width: wi * 0.02,);
             },
-            itemBuilder: (BuildContext context,int ind){
-              Map<String,dynamic> curC = dbE.doc(cc[ind]) as Map<String,dynamic>;
-              Color curCol = Color.fromARGB(curC['color']['a'],curC['color']['r'],curC['color']['g'],curC['color']['b']);
-              return GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectedCourse(cname: curC['courseName'],cc: curCol)));
-                },
-                child: Course(wi*0.4,wi*0.4,curC['courseName'],curCol),
-              );
+            itemBuilder: (BuildContext context, int ind) {
+              return courseWidgets[ind];
             },
           ),
-        )
+        ),
       ],
     );
   }
@@ -244,10 +260,38 @@ class ExploreState extends State<ExplorePage>{
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loading(wi, hi);
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Text('Error 1: ${snapshot.error}');
                 } else {
                   List<String> cc = snapshot.data ?? [];
-                  return Category(wi,hi,"Programming",cc);
+                  return FutureBuilder<Column>(
+                    future: Category(wi, hi, "Programming", cc),
+                    builder: (context, snapshot2) {
+                      if (snapshot2.connectionState == ConnectionState.waiting) {
+                        return loading(wi, hi);
+                      } else if (snapshot2.hasError) {
+                        return Center(
+                          child: SizedBox(
+                            width: wi,
+                            height: hi*0.1,
+                            child: Text(
+                              "No Courses",
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey.shade700,
+                                  fontSize: hi * 0.025,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return snapshot2.data as Column;
+                      }
+                    },
+                  );
+
                 }
               },
             )
