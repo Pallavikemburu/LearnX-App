@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,8 +6,8 @@ import 'SelectedCourse.dart';
 import 'HomePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final dbU = FirebaseFirestore.instance.collection('Users');
-final dbE = FirebaseFirestore.instance.collection('Courses');
+// final DocumentReference dbU = FirebaseFirestore.instance.collection('Users').get();
+final CollectionReference dbE = FirebaseFirestore.instance.collection('Courses');
 
 class ExplorePage extends StatefulWidget{
   const ExplorePage({super.key});
@@ -16,7 +15,6 @@ class ExplorePage extends StatefulWidget{
   State<ExplorePage> createState() => ExploreState();
 }
 class ExploreState extends State<ExplorePage>{
-
   final Color themeblue = const Color.fromARGB(255, 60, 84, 127);
   final Color themegreen = const Color.fromARGB(255, 66, 146, 130);
   Text makeText(String s){
@@ -43,7 +41,6 @@ class ExploreState extends State<ExplorePage>{
     }
     return res;
   }
-
   Card Course(double wi,double hi,String cname,Color c){
     return Card(
       elevation: 10,
@@ -74,10 +71,10 @@ class ExploreState extends State<ExplorePage>{
     );
   }
 
-  Column Category(double wi,double hi,String catname,String curCat){
-    List<dynamic> scc = [];
+  Future<Column> Category(double wi,double hi,String catname,String curCat) async {
+    List<String> scc = [];
     for (int i=0; i<cid.length; i++){
-      Map<String,dynamic> curC = dbE.doc(cid[i]) as Map<String,dynamic>;
+      DocumentSnapshot curC = await dbE.doc(cid[i]).get();
       if (curC['categoryName'] == curCat){
         scc.add(cid[i]);
       }
@@ -204,6 +201,16 @@ class ExploreState extends State<ExplorePage>{
     );
   }
 
+  Center loading(double wi,double hi){
+    return Center(
+      child: SizedBox(
+        width: wi*0.2,
+        height: wi*0.2,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context){
     double wi = MediaQuery.of(context).size.width;
@@ -214,15 +221,13 @@ class ExploreState extends State<ExplorePage>{
           stream: dbE.snapshots(),
           builder: (context,snapshot){
             if (snapshot.connectionState == ConnectionState.waiting){
-              return CircularProgressIndicator(
-
-              );
+              return loading(wi, hi);
             }
             else{
               return ListView(
                 shrinkWrap: true,
                 // // physics: NeverScrollableScrollPhysics(),
-                // padding: EdgeInsets.all(hi*0.02),
+                padding: EdgeInsets.all(hi*0.02),
                 scrollDirection: Axis.vertical,
                 children: [
                   Text(
@@ -237,12 +242,66 @@ class ExploreState extends State<ExplorePage>{
                   ),
                   SizedBox(height: hi*0.02,),
                   potdBox(wi*0.8,wi*0.7),
-                  Category(wi, hi, "Trending Courses", 'others'),
-                  Category(wi, hi, "Programming", 'programming'),
-                  Category(wi, hi, "Devops", 'devops'),
-                  Category(wi, hi, "Web Development", 'webdevelopment'),
-                  Category(wi, hi, "Data Structures & Algorithms", 'advancedprogramming'),
-                  Category(wi, hi, "App Development", 'appdevelopment'),
+                  FutureBuilder<Column>(
+                    future: Category(wi, hi, "Trending Courses", 'others'),
+                    builder: (context, categorySnapshot) {
+                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
+                        return loading(wi, hi);
+                      } else {
+                        return categorySnapshot.data ?? Container();
+                      }
+                    },
+                  ),
+                  FutureBuilder<Column>(
+                    future: Category(wi, hi, "Programming", 'programming'),
+                    builder: (context, categorySnapshot) {
+                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
+                        return loading(wi, hi);
+                      } else {
+                        return categorySnapshot.data ?? Container();
+                      }
+                    },
+                  ),
+                  FutureBuilder<Column>(
+                    future: Category(wi, hi, "Devops", 'devops'),
+                    builder: (context, categorySnapshot) {
+                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
+                        return loading(wi, hi);
+                      } else {
+                        return categorySnapshot.data ?? Container();
+                      }
+                    },
+                  ),
+                  FutureBuilder<Column>(
+                    future: Category(wi, hi, "Web Development", 'webdevelopment'),
+                    builder: (context, categorySnapshot) {
+                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
+                        return loading(wi, hi);
+                      } else {
+                        return categorySnapshot.data ?? Container();
+                      }
+                    },
+                  ),
+                  FutureBuilder<Column>(
+                    future: Category(wi, hi, "Data Structures & Algorithms", 'advancedprogramming'),
+                    builder: (context, categorySnapshot) {
+                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
+                        return loading(wi, hi);
+                      } else {
+                        return categorySnapshot.data ?? Container();
+                      }
+                    },
+                  ),
+                  FutureBuilder<Column>(
+                    future: Category(wi, hi, "App Development", 'appdevelopment'),
+                    builder: (context, categorySnapshot) {
+                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
+                        return loading(wi, hi);
+                      } else {
+                        return categorySnapshot.data ?? Container();
+                      }
+                    },
+                  ),
                 ],
               );
             }

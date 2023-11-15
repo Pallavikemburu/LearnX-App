@@ -6,16 +6,15 @@ import 'LearnPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final CollectionReference dbE = FirebaseFirestore.instance.collection('Courses');
-List<dynamic> cid = [];
+
+List<String> cid = [];
 Future<void> getCid() async {
-  await FirebaseFirestore.instance.collection('Courses').get().then((value) {
-    // for (var element in ) {
-    //   cid.add(element);
-    // }
-    cid = value.docs.toList();
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection('Courses').get();
+  querySnapshot.docs.forEach((document){
+    cid.add(document.id);
   });
 }
-
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -59,7 +58,13 @@ class _HomeState extends State<HomePage>{
       future: _getCidFuture,
       builder: (context,snapshot){
         if (snapshot.connectionState == ConnectionState.waiting){
-          return CircularProgressIndicator();
+          return Center(
+            child: SizedBox(
+              width: wi*0.3,
+              height: wi*0.3,
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
         else{
           return Scaffold(
