@@ -357,11 +357,15 @@ class _ExplorePageState extends State<ExplorePage> {
     getCategories();
   }
 
-  getCategories() async {
+  void getCategories() async {
     setState(() => isLoading = true);
     final categoryDocumentNames = (await db.collection('Categories').get()).docs;
     setState(() {
       coursesCat = categoryDocumentNames.map((e) => e.id).toList();
+      coursesCat.sort((a, b) => courseCategoriesMap.keys
+          .toList()
+          .indexOf(a)
+          .compareTo(courseCategoriesMap.keys.toList().indexOf(b)));
       isLoading = false;
     });
   }
@@ -530,72 +534,69 @@ class CourseCategory extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            // Text(courseData[index].id);
-                            children: List.generate(courseData.length, (index) {
-                              return FutureBuilder(
-                                  future: db.collection('Courses').doc(courseData[index].id).get(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasError) {
-                                      return const Center(
-                                        child: Text('Something went wrong'),
-                                      );
-                                    } else if (snapshot.hasData) {
-                                      final data = snapshot.requireData.data();
-                                      final color = data!['color'];
-                                      final courseName = data['courseName'];
-                                      return Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 10),
-                                            child: Card(
-                                              elevation: 5,
-                                              shadowColor: Colors.grey,
-                                              shape: RoundedRectangleBorder(
+                        Container(
+                          height: 140,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: courseData.length,
+                              itemBuilder: ((context, index) {
+                                return FutureBuilder(
+                                    future:
+                                        db.collection('Courses').doc(courseData[index].id).get(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return const Center(
+                                          child: Text('Something went wrong'),
+                                        );
+                                      } else if (snapshot.hasData) {
+                                        final data = snapshot.requireData.data();
+                                        final color = data!['color'];
+                                        final courseName = data['courseName'];
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: 16),
+                                          child: Card(
+                                            elevation: 10,
+                                            // shadowColor: Colors.grey,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(15.0),
+                                                color: Color.fromARGB(
+                                                    color['a'], color['r'], color['g'], color['b']),
                                               ),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(15.0),
-                                                  color: Color.fromARGB(color['a'], color['r'],
-                                                      color['g'], color['b']),
-                                                ),
-                                                height: 140,
-                                                width: 140,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        courseName,
-                                                        style: GoogleFonts.poppins(
-                                                            textStyle: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: Colors.black,
-                                                          fontSize: 14,
-                                                        )),
-                                                      ),
-                                                    ],
-                                                  ),
+                                              height: 140,
+                                              width: 140,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      courseName,
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: const TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                      )),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      );
-                                    }
-                                    return const SizedBox();
-                                  });
-                            }),
-                          ),
+                                        );
+                                      }
+                                      return const SizedBox();
+                                    });
+                              })),
                         ),
                         const SizedBox(
-                          height: 8,
+                          height: 24,
                         ),
                       ],
                     );
