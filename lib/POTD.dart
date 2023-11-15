@@ -29,7 +29,6 @@ class _POTDState extends State<POTD>{
       ),
     );
   }
-
   Container Option(int i,double wi,String s){
     return Container(
       width: wi,

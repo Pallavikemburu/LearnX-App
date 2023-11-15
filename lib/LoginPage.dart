@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:learnx/HomePage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:learnx/SignupPage.dart';
 
 class Login extends StatefulWidget{
   const Login({super.key});

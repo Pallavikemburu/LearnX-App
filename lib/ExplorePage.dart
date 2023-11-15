@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:learnx/CourseData.dart';
 import 'POTD.dart';
 import 'SelectedCourse.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ExplorePage extends StatefulWidget{
   const ExplorePage({super.key});
@@ -13,7 +14,9 @@ class ExplorePage extends StatefulWidget{
   State<ExplorePage> createState() => ExploreState();
 }
 class ExploreState extends State<ExplorePage>{
-
+  final db = FirebaseFirestore.instance.collection('Users');
+  final Color themeblue = const Color.fromARGB(255, 60, 84, 127);
+  final Color themegreen = const Color.fromARGB(255, 66, 146, 130);
   Text makeText(String s){
     return Text(
       s,
@@ -136,7 +139,7 @@ class ExploreState extends State<ExplorePage>{
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 60, 84, 127),
+                      color: themeblue,
                       fontSize: hi*0.075,
                     )
                 ),
@@ -154,8 +157,7 @@ class ExploreState extends State<ExplorePage>{
                 ElevatedButton(
                   onPressed: (){},
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Color.fromARGB(
-                        255, 66, 146, 130)),
+                    backgroundColor: MaterialStatePropertyAll(themegreen),
                     shape: MaterialStatePropertyAll(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
