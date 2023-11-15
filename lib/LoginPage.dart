@@ -26,8 +26,8 @@ class _LoginState extends State<Login> {
       password: _password.text,
     ).then((val) {
       showCustomSnackBar('Login successful', Colors.green);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const HomePage()));
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, '5');
     }).onError((error, stackTrace) {
       showCustomSnackBar('Login failed!', Colors.red);
     });
@@ -173,7 +173,6 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                                 GestureDetector(
                                   onTap:(){
                                     Navigator.popAndPushNamed((context), "4");
-
                               },
 
 

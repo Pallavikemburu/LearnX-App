@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget{
         '2':(context)=>Login(),
         '3':(context)=>Signup(),
         '4':(context)=>PasswordReset(),
+        '5':(context)=>HomePage(),
       },
       home:MyHome(),
       debugShowCheckedModeBanner: false,

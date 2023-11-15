@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:learnx/main.dart';
-
+import 'main.dart';
 
 
 class settings_page extends StatefulWidget {
@@ -31,8 +31,12 @@ class _settings_pageState extends State<settings_page> {
 
   Future<void> logoutUser(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => MyHome()));
+   // Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, '1');
+
+  //  Navigator.pop(context);
+
   }
   void showCustomSnackBar(String string, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(

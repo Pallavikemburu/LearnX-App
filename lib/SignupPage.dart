@@ -27,7 +27,8 @@ class _SignupState extends State<Signup>{
       password: _password.text,
     ).then((value) {
       addUserToFireStore(_email.text, _email.text.split('@')[0]);
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>const Login()));
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, '5');
       showCustomSnackBar('Signup successful', Colors.green);
     }).onError((error, stackTrace){
       showCustomSnackBar('Error while Signup', Colors.red);
