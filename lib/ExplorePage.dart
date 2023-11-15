@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,16 +71,7 @@ class ExploreState extends State<ExplorePage>{
     );
   }
 
-  Future<Column> Category(double wi,double hi,String catname,String curCat) async {
-    List<String> scc = [];
-    cid.forEach((element) async {
-      print("""""""""""""""""""""""""""""""""""""""""");
-      DocumentSnapshot curC = await dbE.doc(element).get();
-      String ans=curC.data().toString().contains('categoryname') ? curC.get('categoryname') : ''; //String
-      if(ans==catname){
-
-        scc.add(element);
-    }});
+  Column Category(double wi,double hi,String catname,List<String>cc){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -106,12 +95,12 @@ class ExploreState extends State<ExplorePage>{
             shrinkWrap: true,
             padding: EdgeInsets.symmetric(vertical: hi*0.02),
             scrollDirection: Axis.horizontal,
-            itemCount: scc.length,
+            itemCount: cc.length,
             separatorBuilder: (BuildContext context,int ind){
               return SizedBox(width: wi*0.02,);
             },
             itemBuilder: (BuildContext context,int ind){
-              Map<String,dynamic> curC = dbE.doc(scc[ind]) as Map<String,dynamic>;
+              Map<String,dynamic> curC = dbE.doc(cc[ind]) as Map<String,dynamic>;
               Color curCol = Color.fromARGB(curC['color']['a'],curC['color']['r'],curC['color']['g'],curC['color']['b']);
               return GestureDetector(
                 onTap: (){
@@ -215,103 +204,54 @@ class ExploreState extends State<ExplorePage>{
     );
   }
 
+  Future<List<String>> fetchData(String catName) async {
+    List<String> cc = [];
+    for (int i = 0; i < cid.length; i++) {
+      DocumentReference docRef = dbE.doc(cid[i]);
+      DocumentSnapshot docSnapshot = await docRef.get();
+      if (docSnapshot.exists && docSnapshot['category'] == catName) {
+        cc.add(cid[i]);
+      }
+    }
+    return cc;
+  }
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     double wi = MediaQuery.of(context).size.width;
     double hi = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        body: StreamBuilder(
-          stream: dbE.snapshots(),
-          builder: (context,snapshot){
-            if (snapshot.connectionState == ConnectionState.waiting){
-              return loading(wi, hi);
-            }
-            else{
-              return ListView(
-                shrinkWrap: true,
-                // // physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.all(hi*0.02),
-                scrollDirection: Axis.vertical,
-                children: [
-                  Text(
-                    "Welcome back!",
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: hi*0.03,
-                        )
-                    ),
-                  ),
-                  SizedBox(height: hi*0.02,),
-                  potdBox(wi*0.8,wi*0.7),
-                  FutureBuilder<Column>(
-                    future: Category(wi, hi, "Trending Courses", 'others'),
-                    builder: (context, categorySnapshot) {
-                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
-                        return loading(wi, hi);
-                      } else {
-                        return categorySnapshot.data ?? Container(
-                          child: Text("KO"),
-                        );
-                      }
-                    },
-                  ),
-                  FutureBuilder<Column>(
-                    future: Category(wi, hi, "Programming", 'programming'),
-                    builder: (context, categorySnapshot) {
-                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
-                        return loading(wi, hi);
-                      } else {
-                        return categorySnapshot.data ?? Container();
-                      }
-                    },
-                  ),
-                  FutureBuilder<Column>(
-                    future: Category(wi, hi, "Devops", 'devops'),
-                    builder: (context, categorySnapshot) {
-                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
-                        return loading(wi, hi);
-                      } else {
-                        return categorySnapshot.data ?? Container();
-                      }
-                    },
-                  ),
-                  FutureBuilder<Column>(
-                    future: Category(wi, hi, "Web Development", 'webdevelopment'),
-                    builder: (context, categorySnapshot) {
-                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
-                        return loading(wi, hi);
-                      } else {
-                        return categorySnapshot.data ?? Container();
-                      }
-                    },
-                  ),
-                  FutureBuilder<Column>(
-                    future: Category(wi, hi, "Data Structures & Algorithms", 'advancedprogramming'),
-                    builder: (context, categorySnapshot) {
-                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
-                        return loading(wi, hi);
-                      } else {
-                        return categorySnapshot.data ?? Container();
-                      }
-                    },
-                  ),
-                  FutureBuilder<Column>(
-                    future: Category(wi, hi, "App Development", 'appdevelopment'),
-                    builder: (context, categorySnapshot) {
-                      if (categorySnapshot.connectionState == ConnectionState.waiting) {
-                        return loading(wi, hi);
-                      } else {
-                        return categorySnapshot.data ?? Container();
-                      }
-                    },
-                  ),
-                ],
-              );
-            }
-          },
+        body: ListView(
+          padding: EdgeInsets.all(hi*0.02),
+          scrollDirection: Axis.vertical,
+          children: [
+            Text(
+              "Welcome back!",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: hi*0.03,
+                  )
+              ),
+            ),
+            SizedBox(height: hi*0.02,),
+            potdBox(wi*0.8,wi*0.7),
+            FutureBuilder<List<String>>(
+              future: fetchData('programming'),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return loading(wi, hi);
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  List<String> cc = snapshot.data ?? [];
+                  return Category(wi,hi,"Programming",cc);
+                }
+              },
+            )
+          ],
         ),
       ),
     );
