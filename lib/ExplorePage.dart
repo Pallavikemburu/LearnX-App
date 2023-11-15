@@ -482,6 +482,18 @@ class CourseCategory extends StatelessWidget {
 
   final List<String> categories;
 
+  Future<List<String>> fetchData(String catName) async {
+    List<String> cc = [];
+    for (int i = 0; i < cid.length; i++) {
+      DocumentReference docRef = dbE.doc(cid[i]);
+      DocumentSnapshot docSnapshot = await docRef.get();
+      if (docSnapshot.exists && docSnapshot['category'] == catName) {
+        cc.add(cid[i]);
+      }
+    }
+    return cc;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
