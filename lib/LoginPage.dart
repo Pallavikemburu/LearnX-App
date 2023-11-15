@@ -33,7 +33,6 @@ class _LoginState extends State<Login> {
     });
   }
 
-
   void showCustomSnackBar(String string, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

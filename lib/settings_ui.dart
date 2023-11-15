@@ -36,7 +36,6 @@ class _settings_pageState extends State<settings_page> {
     Navigator.popAndPushNamed(context, '1');
 
   //  Navigator.pop(context);
-
   }
   void showCustomSnackBar(String string, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
