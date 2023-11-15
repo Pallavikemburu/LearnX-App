@@ -1,12 +1,14 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:learnx/CourseData.dart';
 import 'POTD.dart';
 import 'SelectedCourse.dart';
+import 'HomePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+final dbU = FirebaseFirestore.instance.collection('Users');
+final dbE = FirebaseFirestore.instance.collection('Courses');
 
 class ExplorePage extends StatefulWidget{
   const ExplorePage({super.key});
@@ -14,7 +16,7 @@ class ExplorePage extends StatefulWidget{
   State<ExplorePage> createState() => ExploreState();
 }
 class ExploreState extends State<ExplorePage>{
-  final db = FirebaseFirestore.instance.collection('Users');
+
   final Color themeblue = const Color.fromARGB(255, 60, 84, 127);
   final Color themegreen = const Color.fromARGB(255, 66, 146, 130);
   Text makeText(String s){
@@ -72,7 +74,14 @@ class ExploreState extends State<ExplorePage>{
     );
   }
 
-  Column Category(double wi,double hi,String catname,int noc){
+  Column Category(double wi,double hi,String catname,String curCat){
+    List<dynamic> scc = [];
+    for (int i=0; i<cid.length; i++){
+      Map<String,dynamic> curC = dbE.doc(cid[i]) as Map<String,dynamic>;
+      if (curC['categoryName'] == curCat){
+        scc.add(cid[i]);
+      }
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,22 +98,25 @@ class ExploreState extends State<ExplorePage>{
           ),
         ),
         SizedBox(height: wi*0.01,),
-        SizedBox(
+        Container(
           width: wi,
           height: hi*0.24,
           child: ListView.separated(
+            shrinkWrap: true,
             padding: EdgeInsets.symmetric(vertical: hi*0.02),
             scrollDirection: Axis.horizontal,
-            itemCount: coursesData.length,
+            itemCount: scc.length,
             separatorBuilder: (BuildContext context,int ind){
               return SizedBox(width: wi*0.02,);
             },
             itemBuilder: (BuildContext context,int ind){
+              Map<String,dynamic> curC = dbE.doc(scc[ind]) as Map<String,dynamic>;
+              Color curCol = Color.fromARGB(curC['color']['a'],curC['color']['r'],curC['color']['g'],curC['color']['b']);
               return GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectedCourse(cname: coursesData[ind].cname,cc: coursesData[ind].col)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectedCourse(cname: curC['courseName'],cc: curCol)));
                 },
-                child: Course(wi*0.4,wi*0.4,coursesData[ind].cname,coursesData[ind].col),
+                child: Course(wi*0.4,wi*0.4,curC['courseName'],curCol),
               );
             },
           ),
@@ -198,31 +210,44 @@ class ExploreState extends State<ExplorePage>{
     double hi = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        body: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.all(hi*0.02),
-          scrollDirection: Axis.vertical,
-          children: [
-            Text(
-              "Welcome back!",
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: hi*0.03,
-                  )
-              ),
-            ),
-            SizedBox(height: hi*0.02,),
-            potdBox(wi*0.8,wi*0.7),
-            Category(wi, hi, "Top Courses", 5),
-            Category(wi, hi, "Programming", 5),
-            Category(wi, hi, "Devops", 5),
-            Category(wi, hi, "Web Development", 3),
-            Category(wi, hi, "Data Structures & Algorithms", 10),
-            Category(wi, hi, "App Development", 2),
-          ],
-        )
+        body: StreamBuilder(
+          stream: dbE.snapshots(),
+          builder: (context,snapshot){
+            if (snapshot.connectionState == ConnectionState.waiting){
+              return CircularProgressIndicator(
+
+              );
+            }
+            else{
+              return ListView(
+                shrinkWrap: true,
+                // // physics: NeverScrollableScrollPhysics(),
+                // padding: EdgeInsets.all(hi*0.02),
+                scrollDirection: Axis.vertical,
+                children: [
+                  Text(
+                    "Welcome back!",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: hi*0.03,
+                        )
+                    ),
+                  ),
+                  SizedBox(height: hi*0.02,),
+                  potdBox(wi*0.8,wi*0.7),
+                  Category(wi, hi, "Trending Courses", 'others'),
+                  Category(wi, hi, "Programming", 'programming'),
+                  Category(wi, hi, "Devops", 'devops'),
+                  Category(wi, hi, "Web Development", 'webdevelopment'),
+                  Category(wi, hi, "Data Structures & Algorithms", 'advancedprogramming'),
+                  Category(wi, hi, "App Development", 'appdevelopment'),
+                ],
+              );
+            }
+          },
+        ),
       ),
     );
   }

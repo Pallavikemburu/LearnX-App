@@ -34,11 +34,13 @@ class _SignupState extends State<Signup>{
     });
   }
   Future<void> addUserToFireStore(String email,String username) async {
+
     try{
       await db.collection('Users').doc(auth.currentUser!.uid).set({
         'Username' : username,
         'email' : email,
-        'potd' : false
+        'potd' : false,
+        'FavCourses' : [],
       });
     }
     catch(e){

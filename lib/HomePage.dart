@@ -3,6 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:learnx/settings_ui.dart';
 import 'ExplorePage.dart';
 import 'LearnPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final CollectionReference dbE = FirebaseFirestore.instance.collection('Courses');
+List<dynamic> cid = [];
+Future<void> getCid() async {
+  await FirebaseFirestore.instance.collection('Courses').get().then((value) {
+    // for (var element in ) {
+    //   cid.add(element);
+    // }
+    cid = value.docs.toList();
+  });
+}
+
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -11,10 +24,18 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomeState extends State<HomePage>{
-  @override
-  int selectedPageIndex = 0;
 
+  late Future<void> _getCidFuture;
+  @override
+  void initState() {
+    super.initState();
+    _getCidFuture = getCid();
+  }
+  int selectedPageIndex = 0;
   Color tc = const Color.fromARGB(255, 0, 63, 254);
+
+  @override
+
   Card Course(double wi,double hi){
     return Card(
       elevation: 20,
@@ -34,54 +55,64 @@ class _HomeState extends State<HomePage>{
   Widget build(BuildContext context) {
     double wi = MediaQuery.of(context).size.width;
     double hi = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: [
-        ExplorePage(),
-        LearnPage(),
-        settings_page(),
-      ][selectedPageIndex],
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Colors.white,
-        shadowColor: Colors.grey,
-        elevation: 0.4,
-        selectedIndex: selectedPageIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            selectedPageIndex = index;
-          });
-        },
-        destinations: <NavigationDestination>[
-          NavigationDestination(
-            selectedIcon: Icon(
-              CupertinoIcons.compass_fill,
-              color: tc,
-            ),
-            icon: Icon(CupertinoIcons.compass),
+    return FutureBuilder(
+      future: _getCidFuture,
+      builder: (context,snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting){
+          return CircularProgressIndicator();
+        }
+        else{
+          return Scaffold(
+            body: [
+              ExplorePage(),
+              LearnPage(),
+              settings_page(),
+            ][selectedPageIndex],
+            bottomNavigationBar: NavigationBar(
+              backgroundColor: Colors.white,
+              shadowColor: Colors.grey,
+              elevation: 0.4,
+              selectedIndex: selectedPageIndex,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  selectedPageIndex = index;
+                });
+              },
+              destinations: <NavigationDestination>[
+                NavigationDestination(
+                  selectedIcon: Icon(
+                    CupertinoIcons.compass_fill,
+                    color: tc,
+                  ),
+                  icon: Icon(CupertinoIcons.compass),
 
-            label: 'Explore',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(
-              CupertinoIcons.book_fill,
-              color: tc,
+                  label: 'Explore',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(
+                    CupertinoIcons.book_fill,
+                    color: tc,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.book,
+                  ),
+                  label: 'Learn',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(
+                    CupertinoIcons.person_alt,
+                    color: tc,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.person_alt_circle,
+                  ),
+                  label: 'Profile',
+                ),
+              ],
             ),
-            icon: Icon(
-              CupertinoIcons.book,
-            ),
-            label: 'Learn',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(
-              CupertinoIcons.person_alt,
-              color: tc,
-            ),
-            icon: Icon(
-              CupertinoIcons.person_alt_circle,
-            ),
-            label: 'Profile',
-          ),
-        ],
-      ),
+          );
+        }
+      },
     );
   }
 }

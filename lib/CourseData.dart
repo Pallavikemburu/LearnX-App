@@ -40,5 +40,5 @@ final List<course> coursesData = [
   course(cid: 1012, cname: "Salesforce", rating: 9, col: Color.fromARGB(
       255, 228, 136, 157)),
   course(cid: 1013, cname: "PEGA", rating: 7, col: Color.fromARGB(
-      255, 228, 136, 157)),
+      255, 173, 50, 249)),
 ];

@@ -128,8 +128,8 @@ class _SelectedTopicState extends State<SelectedTopic>{
             ),
             IconButton(
               icon: Icon(
-                CupertinoIcons.left_chevron,
-                size: 35,
+                CupertinoIcons.chevron_left_circle_fill,
+                size: 40,
                 color: Colors.white,
               ),
               onPressed: (){
