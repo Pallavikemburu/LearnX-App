@@ -122,7 +122,7 @@ Future<TextField> MyTextFeild( int height, TextEditingController contoller, bool
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
-                                    fontSize: wi*0.039,
+                                    fontSize: wi*0.055,
                                   )
                               ),
                             ),//log in

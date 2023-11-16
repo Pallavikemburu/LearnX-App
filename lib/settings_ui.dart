@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:learnx/main.dart';
-import 'main.dart';
 
 final CollectionReference dbU = FirebaseFirestore.instance.collection('Users');
 
@@ -19,19 +17,7 @@ class settings_page extends StatefulWidget {
 
 class _settings_pageState extends State<settings_page> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
-  /*DarkThemeProvider themeChangeProvider = new DarkThemeProvider();
-
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentAppTheme();
-  }
-
-  void getCurrentAppTheme() async {
-    themeChangeProvider.darkTheme =
-    await themeChangeProvider.darkThemePreference.getTheme();
-  }   */
+  final change_name = TextEditingController();
 
   Future<void> logoutUser(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -61,6 +47,18 @@ class _settings_pageState extends State<settings_page> {
     DocumentSnapshot snap = await userRef.get();
     return snap['Username'];
   }
+  Future<void> updateUsername(String userId, String newUsername) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userId)
+          .update({'Username': newUsername});
+
+      print('Username updated successfully');
+    } catch (e) {
+      print('Error updating username: $e');
+    }
+  }
 
 
   @override
@@ -84,36 +82,114 @@ class _settings_pageState extends State<settings_page> {
                   radius: wi*0.15,
                   backgroundColor: Colors.green,
                   backgroundImage: NetworkImage(
-                    'https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_1280.png',
-
+                    'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=740&t=st=1700124073~exp=1700124673~hmac=7388fd15fb23c6b37cd91b6bcd58ce4c8ab83be8f0fc866a403d45d4dea933e8',
                   ),
                 ),
               ),
               SizedBox(height: hi*0.02,),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: wi*0.055,vertical: wi*0.025),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Color.fromARGB(255, 66, 146, 130)
-                ),
-                child: FutureBuilder<String>(
-                  future: getUserName(uid),
-                  builder: (context,snap){
-                    String uname = snap.data ?? "UserName";
-                    return Text(
-                      uname,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: wi*0.05,
-                          )
-                      ),
-                    );
-                  },
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: wi*0.055,vertical: wi*0.025),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color.fromARGB(255, 66, 146, 130)
+                    ),
+                    child:  FutureBuilder<String>(
+                      future: getUserName(uid),
+                      builder: (context,snap){
+                        String uname = snap.data ?? "UserName";
+                        return Text(
+                          uname,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: wi*0.05,
+                              )
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: (){
+                        showDialog(context: context, builder: (context){
+                          return AlertDialog(
+                              title: Text("do you want to chage your name?"),
+                              content: TextFormField(
+                                keyboardType: TextInputType.text,
+                                controller: change_name,
+                                validator: (val) => val!.isEmpty ? "Please Enter Name" : null,
+                                decoration: InputDecoration(
+                                  hintText: "Enter New Name",
+                                  hintStyle: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: hi*0.02,
+                                    ),
+                                  ),
+
+                                ),
+
+                              ),//email
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              actions:[
+                                TextButton(
+                                  child: Text("NO",style: GoogleFonts.poppins(textStyle: TextStyle()),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                    onPressed: ()
+                                    async {
+                                      // Replace 'userId' with the actual user ID
+                                      String userId = uid;
+                                      String newUsername = change_name.text;
+
+                                      await updateUsername(uid, newUsername);
+                                      Navigator.of(context).pop();
+                                    },
+
+                                    child: Text("YES",style: GoogleFonts.poppins(textStyle: TextStyle()
+                                    ),
+                                    )
+                                )
+                              ]
+                          );
+                        });
+                      }, icon: Icon(Icons.edit))
+                ],
               ),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: wi*0.055,vertical: wi*0.025),
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(30),
+              //     color: Color.fromARGB(255, 66, 146, 130)
+              //   ),
+              //   child: FutureBuilder<String>(
+              //     future: getUserName(uid),
+              //     builder: (context,snap){
+              //       String uname = snap.data ?? "UserName";
+              //       return Text(
+              //         uname,
+              //         textAlign: TextAlign.center,
+              //         style: GoogleFonts.poppins(
+              //             textStyle: TextStyle(
+              //               fontWeight: FontWeight.bold,
+              //               color: Colors.white,
+              //               fontSize: wi*0.05,
+              //             )
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
               SizedBox(height: hi*0.03,),
               Divider(
                 height: 1.5,
@@ -304,4 +380,4 @@ class DarkThemePreference {
 }     */
 
 String info =
-"Welcome to LearnX, your one-stop destination for a diverse range of technology-related courses and insightful blogs. Whether you're a beginner or an experienced professional, our platform is designed to empower you with knowledge across various tech domains. Immerse yourself in a rich learning experience, explore captivating blogs, and challenge your mind with daily puzzles.\n\nKey Features:\n\n1. Extensive Course Library:\n   Dive into our extensive library of technology courses covering a wide array of topics. From programming languages to cutting-edge technologies, we've got you covered.\n\n2. Informative Blogs:\n   Enhance your understanding of technology through freely accessible blogs. Our platform offers a wealth of information, keeping you updated on the latest trends, best practices, and insights from industry experts.\n\n3. Daily Puzzles:\n  Sharpen your problem-solving skills with a new puzzle every day. Challenge yourself and witness the improvement in your analytical thinking and logical reasoning.\n\n4. Structured Learning Paths:\n   Our courses are meticulously organized into topics and subtopics, providing a clear roadmap for your learning journey. Track your progress easily and stay motivated as you complete each milestone.\n\n5. User-Friendly Interface:\n  Navigate through the app effortlessly with a user-friendly interface. Intuitive design ensures a seamless learning experience, making it easy for users to access courses, blogs, and puzzles.\n\nDesign Team :\n  Varun - 21P31A0541\n   Sai Pradeep - 21P31A0504\n   Ashok Kumar - 21P31A0530\n   Pallavi - 21P31A0520";
+"Welcome to LearnX, your one-stop destination for a diverse range of technology-related courses and insightful blogs. Whether you're a beginner or an experienced professional, our platform is designed to empower you with knowledge across various tech domains. Immerse yourself in a rich learning experience, explore captivating blogs, and challenge your mind with daily puzzles.\n\nKey Features:\n\n1. Extensive Course Library:\n   Dive into our extensive library of technology courses covering a wide array of topics. From programming languages to cutting-edge technologies, we've got you covered.\n\n2. Informative Blogs:\n   Enhance your understanding of technology through freely accessible blogs. Our platform offers a wealth of information, keeping you updated on the latest trends, best practices, and insights from industry experts.\n\n3. Daily Puzzles:\n  Sharpen your problem-solving skills with a new puzzle every day. Challenge yourself and witness the improvement in your analytical thinking and logical reasoning.\n\n4. Structured Learning Paths:\n   Our courses are meticulously organized into topics and subtopics, providing a clear roadmap for your learning journey. Track your progress easily and stay motivated as you complete each milestone.\n\n5. User-Friendly Interface:\n  Navigate through the app effortlessly with a user-friendly interface. Intuitive design ensures a seamless learning experience, making it easy for users to access courses, blogs, and puzzles.\n\nDesign & Development Team :\n  Varun - 21P31A0541\n   Sai Pradeep - 21P31A0504\n   Ashok Kumar - 21P31A0530\n   Pallavi - 21P31A0520";

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final CollectionReference dbE = FirebaseFirestore.instance.collection('Courses');
 final CollectionReference dbU = FirebaseFirestore.instance.collection('Users');
+final CollectionReference dbp = FirebaseFirestore.instance.collection('potd');
 
 class SelectedCourse extends StatefulWidget{
   final String cname;
@@ -36,6 +36,24 @@ class CourseFunc{
     }
     return cc;
   }
+  Future<Map<String,dynamic>> getPOTDque() async {
+    DocumentReference docRef = dbp.doc('question');
+    DocumentSnapshot docSnapshot = await docRef.get();
+    Map<String,dynamic> cc = {};
+    cc['question'] = docSnapshot['question'] as String;
+    cc['op1'] = docSnapshot['op1'] as String;
+    cc['op2'] = docSnapshot['op2'] as String;
+    cc['op3'] = docSnapshot['op3'] as String;
+    cc['op4'] = docSnapshot['op4'] as String;
+    cc['ans'] = docSnapshot['ans'] as String;
+    return cc;
+  }
+  Future<void> updatePOTD() async {
+    DocumentReference userRef = dbU.doc(auth.currentUser!.uid);
+    userRef.update({
+      'potd' : true,
+    });
+  }
   Future<bool> getPOTD() async {
     DocumentReference userRef = dbU.doc(auth.currentUser!.uid);
     DocumentSnapshot snap = await userRef.get();
@@ -55,12 +73,6 @@ class CourseFunc{
       'FavCourses' : FieldValue.arrayUnion([cid])
     });
   }
-
-
-
-
-
-
 }
 class _SelectedCourseState extends State<SelectedCourse>{
   final uid = FirebaseAuth.instance.currentUser!.uid;

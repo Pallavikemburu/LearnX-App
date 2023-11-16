@@ -45,15 +45,17 @@ class ExploreState extends State<LearnPage>{
           borderRadius: BorderRadius.circular(15),
           color: c,
         ),
-        child: Text(
-          process(cname),
-          textAlign: TextAlign.left,
-          style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-                fontSize: hi*0.09,
-              )
+        child: Center(
+          child: Text(
+            process(cname),
+            textAlign: TextAlign.left,
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                  fontSize: wi*0.1,
+                )
+            ),
           ),
         ),
       ),

@@ -97,13 +97,13 @@ class _HomeState extends State<HomePage>{
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(
-                    CupertinoIcons.book_fill,
+                    CupertinoIcons.square_favorites_alt_fill,
                     color: tc,
                   ),
                   icon: Icon(
-                    CupertinoIcons.book,
+                    CupertinoIcons.square_favorites_alt,
                   ),
-                  label: 'Learn',
+                  label: 'Favorites',
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(

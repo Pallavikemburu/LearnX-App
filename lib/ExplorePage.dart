@@ -15,7 +15,7 @@ const Color themeblue = Color.fromARGB(255, 60, 84, 127);
 const Color themegreen = Color.fromARGB(255, 66, 146, 130);
 
 Map<String, String> courseCategoriesMap = {
-  'others': 'Trending Courses',
+  'others': 'New Courses',
   'programming': 'Programming',
   'devops': 'DevOps',
   'webdevelopment': 'Web Development',
@@ -142,35 +142,34 @@ class PotBox extends StatelessWidget {
                     height: hi*0,
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: (){},
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(themegreen),
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                      )
-                    ),
-                    elevation: MaterialStatePropertyAll(15)
-                  ),
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context,MaterialPageRoute(builder: (context)=>POTD())
-                      );
-                    },
-                    child: FutureBuilder<bool>(
-                      future: CourseFunc().getPOTD(),
-                      builder: (context,snapshot){
-                        if (snapshot.connectionState == ConnectionState.waiting){
-                          return SizedBox(height: wi*0.03,width: wi*0.03,
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        else{
-                          bool solved = snapshot.data ?? false;
-                          String val = solved == true? "Solved" : "Solve Now";
-                          return Text(
+                FutureBuilder<bool>(
+                    future: CourseFunc().getPOTD(),
+                    builder: (context,snapshot){
+                      if (snapshot.connectionState == ConnectionState.waiting){
+                        return SizedBox(height: wi*0.03,width: wi*0.03,
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      else{
+                        bool solved = snapshot.data ?? false;
+                        String val = solved == true? "Solved" : "Solve Now";
+                        Color bt = solved == true? themeblue : themegreen;
+                        return ElevatedButton(
+                          onPressed: (){
+                            Navigator.push(
+                              context,MaterialPageRoute(builder: (context)=>POTD())
+                            );
+                          },
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(bt),
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  )
+                              ),
+                              elevation: MaterialStatePropertyAll(15)
+                          ),
+                          child:Text(
                             val,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
@@ -180,12 +179,11 @@ class PotBox extends StatelessWidget {
                                   fontSize: wi*0.045,
                                 )
                             ),
-                          );
-                        }
-                      },
-                    )
-                  ),
-                )
+                          )
+                        );
+                      }
+                    }
+                ),
               ],
             )
           ],
@@ -501,9 +499,7 @@ class CourseCategory extends StatelessWidget {
 //                   ),
 //                   child: GestureDetector(
 //                     onTap: (){
-//                       Navigator.push(
-//                         context,MaterialPageRoute(builder: (context)=>POTD())
-//                       );
+//
 //                     },
 //                     child: Text(
 //                       solved == true? "Solved" : "Solve Now",
