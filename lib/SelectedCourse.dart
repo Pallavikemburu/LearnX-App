@@ -31,8 +31,8 @@ class CourseFunc{
     DocumentSnapshot docSnapshot = await docRef.get();
     List<Map<String,dynamic>> cc = [];
     for (int i=0; i<docSnapshot['FavCourses'].length; i++){
-      Map<String,dynamic> mp = dbE.doc(docSnapshot[i]) as Map<String,dynamic>;
-      cc.add(mp);
+      DocumentSnapshot courseSnapshot = await dbE.doc(docSnapshot['FavCourses'][i]).get();
+      cc.add(courseSnapshot.data() as Map<String, dynamic>);
     }
     return cc;
   }
