@@ -19,20 +19,35 @@ class _LoginState extends State<Login> {
   bool _password_visibility = true;
   IconData _passicon = Icons.remove_red_eye_rounded;
 
+  // Future<void> LoginUser() async {
+  //   final FirebaseAuth user = await FirebaseAuth.instance;
+  //   user.signInWithEmailAndPassword(
+  //     email: _email.text,
+  //     password: _password.text,
+  //   ).then((val) {
+  //     showCustomSnackBar('Login successful', Colors.green);
+  //     Navigator.pop(context);
+  //     Navigator.popAndPushNamed(context, '5');
+  //   }).onError((error, stackTrace) {
+  //     showCustomSnackBar('Login failed!', Colors.red);
+  //   });
+  // }
   Future<void> LoginUser() async {
-    final FirebaseAuth user = await FirebaseAuth.instance;
-    user.signInWithEmailAndPassword(
-      email: _email.text,
-      password: _password.text,
-    ).then((val) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _email.text,
+        password: _password.text,
+      );
+      String userUid = userCredential.user?.uid ?? '';
       showCustomSnackBar('Login successful', Colors.green);
       Navigator.pop(context);
-      Navigator.popAndPushNamed(context, '5');
-    }).onError((error, stackTrace) {
+      Navigator.popAndPushNamed(context, '5', arguments: {'userID': userUid});
+    } catch (e) {
+      print('Login failed: $e');
       showCustomSnackBar('Login failed!', Colors.red);
-    });
+    }
   }
-
 
   void showCustomSnackBar(String string, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(

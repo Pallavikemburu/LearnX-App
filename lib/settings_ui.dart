@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:learnx/main.dart';
 import 'main.dart';
+
+final CollectionReference dbU = FirebaseFirestore.instance.collection('Users');
 
 
 class settings_page extends StatefulWidget {
@@ -15,6 +18,7 @@ class settings_page extends StatefulWidget {
 
 
 class _settings_pageState extends State<settings_page> {
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   /*DarkThemeProvider themeChangeProvider = new DarkThemeProvider();
 
 
@@ -51,6 +55,12 @@ class _settings_pageState extends State<settings_page> {
       ),
     );
   }
+  Future<String> getUserName(String uid) async {
+    final auth = FirebaseAuth.instance;
+    DocumentReference userRef = dbU.doc(auth.currentUser!.uid);
+    DocumentSnapshot snap = await userRef.get();
+    return snap['Username'];
+  }
 
 
   @override
@@ -86,16 +96,22 @@ class _settings_pageState extends State<settings_page> {
                   borderRadius: BorderRadius.circular(30),
                   color: Color.fromARGB(255, 66, 146, 130)
                 ),
-                child: Text(
-                  "Varun3366",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: wi*0.05,
-                      )
-                  ),
+                child: FutureBuilder<String>(
+                  future: getUserName(uid),
+                  builder: (context,snap){
+                    String uname = snap.data ?? "UserName";
+                    return Text(
+                      uname,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: wi*0.05,
+                          )
+                      ),
+                    );
+                  },
                 ),
               ),
               SizedBox(height: hi*0.03,),

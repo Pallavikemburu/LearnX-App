@@ -8,6 +8,10 @@ class POTD extends StatefulWidget{
   State<POTD> createState() => _POTDState();
 }
 class _POTDState extends State<POTD>{
+  List<String> ops = ['ABC','Java','FORTRAN','C'];
+  List<Color> opc = [Colors.white,Colors.white,Colors.white,Colors.white];
+  int ans = 2;
+  Color obg = Colors.white;
   Container Question(double wi,String que){
     return Container(
       width: wi,
@@ -29,13 +33,13 @@ class _POTDState extends State<POTD>{
       ),
     );
   }
-  Container Option(int i,double wi,String s){
+  Container Option(int i,double wi,String s,Color c){
     return Container(
       width: wi,
       padding: EdgeInsets.all(wi*0.05),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Colors.white
+          color: c
       ),
       child: Text(
         s,
@@ -77,12 +81,26 @@ class _POTDState extends State<POTD>{
                 ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context,int ind){
-                    return Option(ind+1,wi,'option');
+                    return GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          if (ind == ans){
+                            opc[0] = opc[1] = opc[2] = opc[3] = Colors.white;
+                            opc[ind] = Colors.green;
+                          }
+                          else{
+                            opc[0] = opc[1] = opc[2] = opc[3] = Colors.white;
+                            opc[ind] = Colors.red;
+                          }
+                        });
+                      },
+                      child: Option(ind+1,wi,ops[ind],opc[ind]),
+                    );
                   },
                   separatorBuilder: (BuildContext context,int ind){
                     return SizedBox(height: hi*0.015);
                   },
-                    itemCount: 4
+                  itemCount: 4
                 )
               ],
             ),

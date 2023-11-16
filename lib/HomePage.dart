@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:learnx/settings_ui.dart';
@@ -24,7 +25,7 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomeState extends State<HomePage>{
-
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   late Future<void> _getCidFuture;
   @override
   void initState() {

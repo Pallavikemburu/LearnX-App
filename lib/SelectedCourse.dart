@@ -1,20 +1,73 @@
-import 'package:curved_progress_bar/curved_progress_bar.dart';
+import 'dart:ui';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:learnx/SelectedTopic.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final CollectionReference dbE = FirebaseFirestore.instance.collection('Courses');
+final CollectionReference dbU = FirebaseFirestore.instance.collection('Users');
 
 class SelectedCourse extends StatefulWidget{
   final String cname;
   final Color cc;
-  const SelectedCourse({super.key,required this.cname, required this.cc});
+  final String cid;
+  const SelectedCourse({super.key,required this.cid, required this.cname, required this.cc});
   @override
-  State<SelectedCourse> createState() => _SelectedCourseState(cname: this.cname,cc: this.cc);
+  State<SelectedCourse> createState() => _SelectedCourseState(cid: cid,cname: this.cname,cc: this.cc);
+}
+class CourseFunc{
+  final auth = FirebaseAuth.instance;
+  Future<void>  deleteCourse(String cid) async {
+    DocumentReference userRef = dbU.doc(auth.currentUser!.uid);
+    userRef.update({
+      'FavCourses' : FieldValue.arrayRemove([cid])
+    });
+  }
+  Future<List<Map<String,dynamic>>> fetchUser() async {
+    DocumentReference docRef = dbU.doc(auth.currentUser!.uid);
+    DocumentSnapshot docSnapshot = await docRef.get();
+    List<Map<String,dynamic>> cc = [];
+    for (int i=0; i<docSnapshot['FavCourses'].length; i++){
+      Map<String,dynamic> mp = dbE.doc(docSnapshot[i]) as Map<String,dynamic>;
+      cc.add(mp);
+    }
+    return cc;
+  }
+  Future<bool> getPOTD() async {
+    DocumentReference userRef = dbU.doc(auth.currentUser!.uid);
+    DocumentSnapshot snap = await userRef.get();
+    return snap['potd'];
+  }
+  Future<bool> checkCourse(String courseID) async {
+    DocumentReference userRef = dbU.doc(auth.currentUser!.uid);
+    DocumentSnapshot snap = await userRef.get();
+    if (snap['FavCourses'].contains(courseID)){
+      return true;
+    }
+    return false;
+  }
+  Future<void> addCourse(String cid) async {
+    DocumentReference userRef = dbU.doc(auth.currentUser!.uid);
+    userRef.update({
+      'FavCourses' : FieldValue.arrayUnion([cid])
+    });
+  }
+
+
+
+
+
+
 }
 class _SelectedCourseState extends State<SelectedCourse>{
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   final String cname;
   final Color cc;
-  _SelectedCourseState({required this.cname,required this.cc});
+  final String cid;
+  _SelectedCourseState({required this.cid, required this.cname,required this.cc});
   Card Topic(double wi,double hi){
     return Card(
       elevation: 15,
@@ -66,7 +119,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
   }
 
   String process(String s){
-    String res = "\n\n";
+    String res = "\n";
     for (int i=0; i<s.length; i++){
       if (s[i]==' '){
         res+='\n';
@@ -77,6 +130,16 @@ class _SelectedCourseState extends State<SelectedCourse>{
     }
     return res;
   }
+  Center loading(double wi,double hi){
+    return Center(
+      child: SizedBox(
+        width: wi*0.15,
+        height: wi*0.15,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context){
@@ -84,6 +147,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
     double hi = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             SizedBox(
@@ -95,10 +159,6 @@ class _SelectedCourseState extends State<SelectedCourse>{
                     width: wi,
                     height: hi*0.4,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage('https://img.freepik.com/free-vector/background-gradient-green-tones_23-2148360340.jpg?size=626&ext=jpg&ga=GA1.1.833117897.1699424469&semt=ais'),
-                        fit: BoxFit.cover
-                      ),
                       color: this.cc,
                     ),
                   ),
@@ -119,7 +179,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
                 children : [
                   SizedBox(
                     width: wi*0.55,
-                    height: hi*0.25,
+                    height: hi*0.2,
                     child: Text(
                       process(this.cname),
                       textAlign: TextAlign.center,
@@ -127,10 +187,42 @@ class _SelectedCourseState extends State<SelectedCourse>{
                           textStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: 40,
                           )
                       ),
                     ),
+                  ),
+                  FutureBuilder<bool>(
+                    future: CourseFunc().checkCourse(cid),
+                    builder: (context,snapshot){
+                      if (snapshot.connectionState == ConnectionState.waiting){
+                        return loading(wi,hi);
+                      }
+                      else{
+                        bool enrolled= snapshot.data ??  false;
+                        return SizedBox(
+                          height:hi*0.05,
+                          child: IconButton(
+                            onPressed: (){
+                              // enrolled = !enrolled;
+                              setState(() {
+                                if (enrolled){
+                                  CourseFunc().deleteCourse(cid);
+                                }
+                                else{
+                                  CourseFunc().addCourse(cid);
+                                }
+                              });
+                            },
+                            icon: Icon(
+                                enrolled == true ? CupertinoIcons.bookmark_fill : CupertinoIcons.bookmark,
+                                color: enrolled == true ? Colors.white : Colors.black,
+                                size: 40
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   ),
                   SizedBox(height: hi*0.05,),
                   GridView.builder(
