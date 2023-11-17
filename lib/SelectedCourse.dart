@@ -1,3 +1,4 @@
+import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,7 +81,45 @@ class _SelectedCourseState extends State<SelectedCourse>{
   final Color cc;
   final String cid;
   _SelectedCourseState({required this.cid, required this.cname,required this.cc});
-  Card Topic(double wi,double hi){
+
+
+  List<String> topicNames = [];
+  bool isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    getTopics();
+  }
+
+  Future<void> getTopics() async {
+    setState((){
+      isLoading = true;
+    });
+    try {
+      final db = FirebaseFirestore.instance;
+      final collectionReference = db.collection('Courses').doc(cid);
+      final DocumentSnapshot courseDocument = await collectionReference.get();
+      setState(() {
+        topicNames = [];
+        List<dynamic> topicsArray = courseDocument['topics'];
+        if (topicsArray != null) {
+          Future.forEach(topicsArray, (topicRef) async {
+            DocumentSnapshot topicDoc = await topicRef.get();
+            String topicName = topicDoc['topicName'];
+            topicNames.add(topicName);
+          }).then((_) {
+            isLoading = false;
+          });
+        } else {
+          isLoading = false;
+        }
+      });
+    } catch (e) {
+      print('Error fetching topics: $e');
+      setState(() => isLoading = false);
+    }
+  }
+  Card Topic(double wi,double hi,String tn){
     return Card(
       elevation: 15,
       shadowColor: Colors.grey,
@@ -115,12 +154,12 @@ class _SelectedCourseState extends State<SelectedCourse>{
             ),
             SizedBox(height: hi*0.03,),
             Text(
-              "TopicName",
+              tn,
               style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                     fontWeight: FontWeight.w400,
                     color: Colors.grey.shade800,
-                    fontSize: hi*0.12,
+                    fontSize: hi*0.11,
                   )
               ),
             ),
@@ -129,7 +168,6 @@ class _SelectedCourseState extends State<SelectedCourse>{
       ),
     );
   }
-
   String process(String s){
     String res = "\n";
     for (int i=0; i<s.length; i++){
@@ -142,6 +180,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
     }
     return res;
   }
+
   Center loading(double wi,double hi){
     return Center(
       child: SizedBox(
@@ -151,7 +190,6 @@ class _SelectedCourseState extends State<SelectedCourse>{
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context){
@@ -199,7 +237,7 @@ class _SelectedCourseState extends State<SelectedCourse>{
                           textStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            fontSize: 40,
+                            fontSize: wi*0.08,
                           )
                       ),
                     ),
@@ -216,7 +254,6 @@ class _SelectedCourseState extends State<SelectedCourse>{
                           height:hi*0.05,
                           child: IconButton(
                             onPressed: (){
-                              // enrolled = !enrolled;
                               setState(() {
                                 if (enrolled){
                                   CourseFunc().deleteCourse(cid);
@@ -247,18 +284,18 @@ class _SelectedCourseState extends State<SelectedCourse>{
                       crossAxisSpacing: wi*0.05,
                       childAspectRatio: 1.0,
                     ),
-                    itemCount: 9, // Change this as needed
+                    itemCount: topicNames.length, // Change this as needed
                     itemBuilder: (BuildContext context, int gridIndex) {
                       return GridTile(
                         child: GestureDetector(
                           onTap: (){
                             Navigator.push(
                               context,MaterialPageRoute(
-                                builder: (context)=> SelectedTopic(tname: "TopicName", tc: this.cc)
+                                builder: (context)=> SelectedTopic(tname: topicNames[gridIndex], tc: this.cc)
                               )
                             );
                           },
-                          child: Topic(wi*0.35, wi*0.35),
+                          child: Topic(wi*0.35, wi*0.35,topicNames[gridIndex]),
                         ),
                       );
                     },

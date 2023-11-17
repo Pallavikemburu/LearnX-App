@@ -176,7 +176,7 @@ class PotBox extends StatelessWidget {
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontSize: wi*0.045,
+                                  fontSize: wi*0.04,
                                 )
                             ),
                           )
@@ -289,7 +289,7 @@ class CourseCategory extends StatelessWidget {
                                                           textStyle: TextStyle(
                                                             fontWeight: FontWeight.w700,
                                                             color: Colors.black,
-                                                            fontSize: wi*0.042,
+                                                            fontSize: wi*0.035,
                                                           )),
                                                     ),
                                                   ),

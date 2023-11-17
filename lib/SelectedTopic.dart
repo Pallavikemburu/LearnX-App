@@ -14,6 +14,7 @@ class _SelectedTopicState extends State<SelectedTopic>{
   final String tname;
   final Color tc;
   _SelectedTopicState({required this.tname,required this.tc});
+
   Card Blog(double wi,double hi,int bn){
     return Card(
       elevation: 15,
@@ -38,7 +39,7 @@ class _SelectedTopicState extends State<SelectedTopic>{
           ),
         ),
         title: Text(
-          "BlogName",
+          "Blog",
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
               textStyle: TextStyle(
@@ -142,3 +143,50 @@ class _SelectedTopicState extends State<SelectedTopic>{
     );
   }
 }
+/*
+* Widget build(BuildContext context) {
+    double wi = MediaQuery.of(context).size.width;
+    double hi = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(wi*0.04),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                "Welcome back!",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: hi*0.03,
+                    )),
+              ),
+              SizedBox(
+                height: hi*0.02,
+              ),
+              const PotBox(),
+              SizedBox(
+                height: hi*0.02,
+              ),
+              isLoading
+                  ? const Center(
+                child: CircularProgressIndicator(),
+              )
+                  : CourseCategory(categories: coursesCat),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+*
+*
+*
+*
+*
+*
+*
+*
+*
+* */
